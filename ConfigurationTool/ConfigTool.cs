@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-
+using ConfigurationTool.Models;
 namespace ConfigurationTool
 {
     public partial class ConfigTool : Form
@@ -51,6 +51,27 @@ namespace ConfigurationTool
                 // NOTE that the FilterIndex property is one-based.              
                 fs.Close();
             }
+
+            var service = new ConfigurationService();
+
+            var data = new List<ConfigurationParameter>{
+                new ConfigurationParameter
+                {
+                    Name = "IdentityUrl",
+                    Value= "http://localhost:8080",
+                    Description = "identity url",
+                     IncludeVersion = "1.0",
+                      DecrementVersion = "1.0"
+                },new ConfigurationParameter
+                {
+                    Name = "clientId",
+                    Value= "87327373",
+                    Description = "client id",
+                     IncludeVersion = "1.0",
+                      DecrementVersion = "1.0"
+                }
+            };
+            service.SaveConfigurationParameters(data, "parameters.xml");
         }
 
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
