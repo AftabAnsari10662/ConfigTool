@@ -22,10 +22,10 @@ namespace ConfigurationTool.Models
             {
                 var configurationParameter = new XElement("ConfigurationParameter");
                 var name = new XElement("Name", parameter.Name);
-                var value = new XElement("Name", parameter.Value);
-                var description = new XElement("Name", parameter.Description);
-                var includeVersion = new XElement("Name", parameter.IncludeVersion);
-                var decrementVersion = new XElement("Name", parameter.DecrementVersion);
+                var value = new XElement("Value", parameter.Value);
+                var description = new XElement("Description", parameter.Description);
+                var includeVersion = new XElement("IncludeVersion", parameter.IncludeVersion);
+                var decrementVersion = new XElement("DecrementVersion", parameter.DecrementVersion);
                 configurationParameter.Add(name);
                 configurationParameter.Add(value);
                 configurationParameter.Add(description);
