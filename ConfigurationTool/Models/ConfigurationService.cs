@@ -16,6 +16,7 @@ namespace ConfigurationTool.Models
         public void SaveConfigurationParameters(
             List<ConfigurationParameter> configParameters, string path)
         {
+            var filePath = path.Replace(@"\\", @"\");
             var document = new XDocument();
             var parameters = new XElement("ConfigurationParameters");
             foreach (var parameter in configParameters)
@@ -35,7 +36,7 @@ namespace ConfigurationTool.Models
 
             }
             document.Add(parameters);
-            document.Save("configurationParameters.xml");
+            document.Save(@path,SaveOptions.None);
         }
     }
 }

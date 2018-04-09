@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -36,13 +37,15 @@
             this.saveAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.closeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.runToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.runConfigurationTaggingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.runTaggingValidationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.printToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
-            this.runConfigurationTaggingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.runTaggingValidationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.configurationParameterBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.menuStrip1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.configurationParameterBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -114,6 +117,20 @@
             this.runToolStripMenuItem.Size = new System.Drawing.Size(55, 29);
             this.runToolStripMenuItem.Text = "Run";
             // 
+            // runConfigurationTaggingToolStripMenuItem
+            // 
+            this.runConfigurationTaggingToolStripMenuItem.Name = "runConfigurationTaggingToolStripMenuItem";
+            this.runConfigurationTaggingToolStripMenuItem.Size = new System.Drawing.Size(309, 30);
+            this.runConfigurationTaggingToolStripMenuItem.Text = "Run Configuration Tagging";
+            this.runConfigurationTaggingToolStripMenuItem.Click += new System.EventHandler(this.runConfigurationTaggingToolStripMenuItem_Click);
+            // 
+            // runTaggingValidationToolStripMenuItem
+            // 
+            this.runTaggingValidationToolStripMenuItem.Name = "runTaggingValidationToolStripMenuItem";
+            this.runTaggingValidationToolStripMenuItem.Size = new System.Drawing.Size(309, 30);
+            this.runTaggingValidationToolStripMenuItem.Text = "Run Tagging Validation";
+            this.runTaggingValidationToolStripMenuItem.Click += new System.EventHandler(this.runTaggingValidationToolStripMenuItem_Click);
+            // 
             // printToolStripMenuItem
             // 
             this.printToolStripMenuItem.Name = "printToolStripMenuItem";
@@ -130,17 +147,9 @@
             // 
             this.openFileDialog.FileName = "openFileDialog";
             // 
-            // runConfigurationTaggingToolStripMenuItem
+            // configurationParameterBindingSource
             // 
-            this.runConfigurationTaggingToolStripMenuItem.Name = "runConfigurationTaggingToolStripMenuItem";
-            this.runConfigurationTaggingToolStripMenuItem.Size = new System.Drawing.Size(309, 30);
-            this.runConfigurationTaggingToolStripMenuItem.Text = "Run Configuration Tagging";
-            // 
-            // runTaggingValidationToolStripMenuItem
-            // 
-            this.runTaggingValidationToolStripMenuItem.Name = "runTaggingValidationToolStripMenuItem";
-            this.runTaggingValidationToolStripMenuItem.Size = new System.Drawing.Size(309, 30);
-            this.runTaggingValidationToolStripMenuItem.Text = "Run Tagging Validation";
+            this.configurationParameterBindingSource.DataSource = typeof(ConfigurationTool.Models.ConfigurationParameter);
             // 
             // ConfigTool
             // 
@@ -153,6 +162,7 @@
             this.Text = "Configuration Tool";
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.configurationParameterBindingSource)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -174,6 +184,7 @@
         private System.Windows.Forms.SaveFileDialog saveFileDialog;
         private System.Windows.Forms.ToolStripMenuItem runConfigurationTaggingToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem runTaggingValidationToolStripMenuItem;
+        private System.Windows.Forms.BindingSource configurationParameterBindingSource;
     }
 }
 

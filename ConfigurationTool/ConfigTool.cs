@@ -1,20 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using ConfigurationTool.Models;
+using System.IO;
+using System.Xml.Linq;
+
 namespace ConfigurationTool
 {
     public partial class ConfigTool : Form
     {
+        DataGridView parameterGridView = new DataGridView();
         public ConfigTool()
         {
             InitializeComponent();
+            parameterGridView = new DataGridView();
         }
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -24,13 +26,39 @@ namespace ConfigurationTool
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (openFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
-                System.IO.StreamReader sr = new
-                   System.IO.StreamReader(openFileDialog.FileName);
-                MessageBox.Show(sr.ReadToEnd());
+                StreamReader sr = new StreamReader(openFileDialog.FileName);
+
+                var configurationParameters = QueryXml(openFileDialog.FileName);
+
+                foreach (var parameter in configurationParameters)
+                {
+                    configurationParameterBindingSource.Add(parameter);
+                }
+
                 sr.Close();
+                CreateDataGridView();
+                parameterGridView.DataSource = configurationParameterBindingSource;
             }
+        }
+
+        private IEnumerable<ConfigurationParameter> QueryXml(string filePath)
+        {
+            var document = XDocument.Load(filePath);
+            var configurationParameters =
+                document.Element("ConfigurationParameters")
+                .Elements("ConfigurationParameter")
+                .Select((x) =>
+                new ConfigurationParameter
+                {
+                     Name = x.Element("Name").Value,
+                     Description = x.Element("Description").Value,
+                     Value = x.Element("Value").Value,
+                     DecrementVersion = x.Element("DecrementVersion").Value,
+                     IncludeVersion = x.Element("IncludeVersion").Value,
+                }).ToList();
+            return configurationParameters;
         }
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
@@ -43,18 +71,9 @@ namespace ConfigurationTool
             // If the file name is not an empty string open it for saving.  
             if (saveFileDialog1.FileName != "")
             {
-                // Saves the Image via a FileStream created by the OpenFile method.  
-                System.IO.FileStream fs =
-                   (System.IO.FileStream)saveFileDialog1.OpenFile();
-                // Saves the Image in the appropriate ImageFormat based upon the  
-                // File type selected in the dialog box.  
-                // NOTE that the FilterIndex property is one-based.              
-                fs.Close();
-            }
+                var service = new ConfigurationService();
 
-            var service = new ConfigurationService();
-
-            var data = new List<ConfigurationParameter>{
+                var data = new List<ConfigurationParameter>{
                 new ConfigurationParameter
                 {
                     Name = "IdentityUrl",
@@ -71,47 +90,76 @@ namespace ConfigurationTool
                       DecrementVersion = "1.0"
                 }
             };
-            service.SaveConfigurationParameters(data, "parameters.xml");
+                var filePath = saveFileDialog1.FileName.Replace(@"\\", @"\");
+                var filePath2 = Path.GetFullPath(filePath);
+                service.SaveConfigurationParameters(data, filePath);
+                // Saves the Image via a FileStream created by the OpenFile method.  
+                System.IO.FileStream fs =
+                   (System.IO.FileStream)saveFileDialog1.OpenFile();
+                // Saves the Image in the appropriate ImageFormat based upon the  
+                // File type selected in the dialog box.  
+                // NOTE that the FilterIndex property is one-based.              
+                fs.Close();
+            }
+
+
         }
 
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            DataGridView songsDataGridView = new DataGridView();
-            songsDataGridView.ColumnCount = 5;
-
-            songsDataGridView.ColumnHeadersDefaultCellStyle.BackColor = Color.Navy;
-            songsDataGridView.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
-            songsDataGridView.ColumnHeadersDefaultCellStyle.Font =
-                new Font(songsDataGridView.Font, FontStyle.Bold);
-
-            songsDataGridView.Name = "songsDataGridView";
-            songsDataGridView.Location = new Point(8, 8);
-            songsDataGridView.Size = new Size(500, 250);
-            songsDataGridView.AutoSizeRowsMode =
-                DataGridViewAutoSizeRowsMode.DisplayedCellsExceptHeaders;
-            songsDataGridView.ColumnHeadersBorderStyle =
-                DataGridViewHeaderBorderStyle.Single;
-            songsDataGridView.CellBorderStyle = DataGridViewCellBorderStyle.Single;
-            songsDataGridView.GridColor = Color.Black;
-            songsDataGridView.RowHeadersVisible = false;
-
-            songsDataGridView.Columns[0].Name = "Release Date";
-            songsDataGridView.Columns[1].Name = "Track";
-            songsDataGridView.Columns[2].Name = "Title";
-            songsDataGridView.Columns[3].Name = "Artist";
-            songsDataGridView.Columns[4].Name = "Album";
-            songsDataGridView.Columns[4].DefaultCellStyle.Font =
-                new Font(songsDataGridView.DefaultCellStyle.Font, FontStyle.Italic);
-
-            songsDataGridView.SelectionMode =
-                DataGridViewSelectionMode.FullRowSelect;
-            songsDataGridView.MultiSelect = false;
-            songsDataGridView.Dock = DockStyle.Fill;
-            this.Controls.Add(songsDataGridView);
+            CreateDataGridView();
 
         }
 
+        private void CreateDataGridView()
+        {
+
+
+            parameterGridView.Dock = DockStyle.Fill;
+            parameterGridView.ColumnCount = 5;
+
+            parameterGridView.ColumnHeadersDefaultCellStyle.BackColor = Color.Navy;
+            parameterGridView.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
+            parameterGridView.ColumnHeadersDefaultCellStyle.Font =
+                new Font(parameterGridView.Font, FontStyle.Bold);
+
+            parameterGridView.Name = "songsDataGridView";
+            parameterGridView.Location = new Point(8, 8);
+            parameterGridView.Size = new Size(500, 250);
+            parameterGridView.AutoSizeRowsMode =
+                DataGridViewAutoSizeRowsMode.DisplayedCellsExceptHeaders;
+            parameterGridView.ColumnHeadersBorderStyle =
+                DataGridViewHeaderBorderStyle.Single;
+            parameterGridView.CellBorderStyle = DataGridViewCellBorderStyle.Single;
+            parameterGridView.GridColor = Color.Black;
+            parameterGridView.RowHeadersVisible = false;
+
+            parameterGridView.Columns[0].Name = "Release Date";
+            parameterGridView.Columns[1].Name = "Track";
+            parameterGridView.Columns[2].Name = "Title";
+            parameterGridView.Columns[3].Name = "Artist";
+            parameterGridView.Columns[4].Name = "Album";
+            parameterGridView.Columns[4].DefaultCellStyle.Font =
+                new Font(parameterGridView.DefaultCellStyle.Font, FontStyle.Italic);
+
+            parameterGridView.SelectionMode =
+                DataGridViewSelectionMode.FullRowSelect;
+            parameterGridView.MultiSelect = false;
+            parameterGridView.Dock = DockStyle.Fill;
+            this.Controls.Add(parameterGridView);
+        }
+
         private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void runConfigurationTaggingToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void runTaggingValidationToolStripMenuItem_Click(object sender, EventArgs e)
         {
 
         }
