@@ -12,10 +12,12 @@ namespace ConfigurationTool
 {
     public partial class ConfigTool : Form
     {
+        ConfigurationService service;
         public ConfigTool()
         {
             InitializeComponent();
             HideDataGridView();
+            service = new ConfigurationService();
         }
 
         private void HideDataGridView()
@@ -31,6 +33,9 @@ namespace ConfigurationTool
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
+
+
+
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
                 StreamReader sr = new StreamReader(openFileDialog.FileName);
@@ -48,6 +53,7 @@ namespace ConfigurationTool
                 HideNewParameterDataGridView();
                 editParameterGridView.DataSource = configurationParameterBindingSource;
             }
+
         }
 
         private void HideNewParameterDataGridView()
@@ -64,11 +70,11 @@ namespace ConfigurationTool
                 .Select((x) =>
                 new ConfigurationParameter
                 {
-                     Name = x.Element("Name").Value,
-                     Description = x.Element("Description").Value,
-                     Value = x.Element("Value").Value,
-                     DecrementVersion = x.Element("DecrementVersion").Value,
-                     IncludeVersion = x.Element("IncludeVersion").Value,
+                    Name = x.Element("Name").Value,
+                    Description = x.Element("Description").Value,
+                    Value = x.Element("Value").Value,
+                    DecrementVersion = x.Element("DecrementVersion").Value,
+                    IncludeVersion = x.Element("IncludeVersion").Value,
                 }).ToList();
             return configurationParameters;
         }
@@ -83,7 +89,6 @@ namespace ConfigurationTool
             // If the file name is not an empty string open it for saving.  
             if (saveFileDialog1.FileName != "")
             {
-                var service = new ConfigurationService();
 
                 var data = new List<ConfigurationParameter>{
                 new ConfigurationParameter
@@ -105,16 +110,38 @@ namespace ConfigurationTool
                 var filePath = saveFileDialog1.FileName.Replace(@"\\", @"\");
                 var filePath2 = Path.GetFullPath(filePath);
                 service.SaveConfigurationParameters(data, filePath);
-                // Saves the Image via a FileStream created by the OpenFile method.  
-                System.IO.FileStream fs =
-                   (System.IO.FileStream)saveFileDialog1.OpenFile();
-                // Saves the Image in the appropriate ImageFormat based upon the  
-                // File type selected in the dialog box.  
-                // NOTE that the FilterIndex property is one-based.              
+
+                FileStream fs = (FileStream)saveFileDialog1.OpenFile();
+
                 fs.Close();
             }
+            else
+            {
+                var parameters = GetConfigParametersFromEditDataGridView();
 
+                service.SaveConfigurationParameters(parameters, "");
+            }
 
+        }
+
+        private List<ConfigurationParameter> GetConfigParametersFromEditDataGridView()
+        {
+            // Save for edit Grid view
+            var parameters = new List<ConfigurationParameter>();
+            for (int rows = 0; rows < editParameterGridView.Rows.Count - 1; rows++)
+            {
+
+                var parameter = new ConfigurationParameter
+                {
+                    Name = editParameterGridView.Rows[rows].Cells[0].Value.ToString(),
+                    Value = editParameterGridView.Rows[rows].Cells[1].Value.ToString(),
+                    Description = editParameterGridView.Rows[rows].Cells[2].Value.ToString(),
+                    DecrementVersion = editParameterGridView.Rows[rows].Cells[3].Value.ToString(),
+                    IncludeVersion = editParameterGridView.Rows[rows].Cells[4].Value.ToString()
+                };
+                parameters.Add(parameter);
+            }
+            return parameters;
         }
 
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
