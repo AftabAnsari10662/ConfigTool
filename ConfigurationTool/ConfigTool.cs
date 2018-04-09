@@ -12,11 +12,15 @@ namespace ConfigurationTool
 {
     public partial class ConfigTool : Form
     {
-        DataGridView parameterGridView = new DataGridView();
         public ConfigTool()
         {
             InitializeComponent();
-            parameterGridView = new DataGridView();
+            HideDataGridView();
+        }
+
+        private void HideDataGridView()
+        {
+            parameterGridView.Visible = false;
         }
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -38,7 +42,7 @@ namespace ConfigurationTool
                 }
 
                 sr.Close();
-                CreateDataGridView();
+                ShowDataGridView();
                 parameterGridView.DataSource = configurationParameterBindingSource;
             }
         }
@@ -107,8 +111,13 @@ namespace ConfigurationTool
 
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            CreateDataGridView();
+            ShowDataGridView();
 
+        }
+
+        private void ShowDataGridView()
+        {
+            parameterGridView.Visible = true;
         }
 
         private void CreateDataGridView()
@@ -160,6 +169,11 @@ namespace ConfigurationTool
         }
 
         private void runTaggingValidationToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void parameterGridView_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
 
         }

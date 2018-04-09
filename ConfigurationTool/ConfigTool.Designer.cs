@@ -43,8 +43,15 @@
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
+            this.parameterGridView = new System.Windows.Forms.DataGridView();
+            this.nameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.valueDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.descriptionDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.includeVersionDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.decrementVersionDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.configurationParameterBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.menuStrip1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.parameterGridView)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.configurationParameterBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
@@ -77,35 +84,35 @@
             // newToolStripMenuItem
             // 
             this.newToolStripMenuItem.Name = "newToolStripMenuItem";
-            this.newToolStripMenuItem.Size = new System.Drawing.Size(210, 30);
+            this.newToolStripMenuItem.Size = new System.Drawing.Size(158, 30);
             this.newToolStripMenuItem.Text = "New";
             this.newToolStripMenuItem.Click += new System.EventHandler(this.newToolStripMenuItem_Click);
             // 
             // openToolStripMenuItem
             // 
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(210, 30);
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(158, 30);
             this.openToolStripMenuItem.Text = "Open";
             this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
             // 
             // saveToolStripMenuItem
             // 
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(210, 30);
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(158, 30);
             this.saveToolStripMenuItem.Text = "Save";
             this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
             // 
             // saveAsToolStripMenuItem
             // 
             this.saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
-            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(210, 30);
+            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(158, 30);
             this.saveAsToolStripMenuItem.Text = "Save As";
             this.saveAsToolStripMenuItem.Click += new System.EventHandler(this.saveAsToolStripMenuItem_Click);
             // 
             // closeToolStripMenuItem
             // 
             this.closeToolStripMenuItem.Name = "closeToolStripMenuItem";
-            this.closeToolStripMenuItem.Size = new System.Drawing.Size(210, 30);
+            this.closeToolStripMenuItem.Size = new System.Drawing.Size(158, 30);
             this.closeToolStripMenuItem.Text = "Close";
             // 
             // runToolStripMenuItem
@@ -147,6 +154,58 @@
             // 
             this.openFileDialog.FileName = "openFileDialog";
             // 
+            // parameterGridView
+            // 
+            this.parameterGridView.AutoGenerateColumns = false;
+            this.parameterGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.parameterGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.nameDataGridViewTextBoxColumn,
+            this.valueDataGridViewTextBoxColumn,
+            this.descriptionDataGridViewTextBoxColumn,
+            this.includeVersionDataGridViewTextBoxColumn,
+            this.decrementVersionDataGridViewTextBoxColumn});
+            this.parameterGridView.DataSource = this.configurationParameterBindingSource;
+            this.parameterGridView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.parameterGridView.Location = new System.Drawing.Point(0, 33);
+            this.parameterGridView.Name = "parameterGridView";
+            this.parameterGridView.RowTemplate.Height = 28;
+            this.parameterGridView.Size = new System.Drawing.Size(1070, 570);
+            this.parameterGridView.TabIndex = 1;
+            this.parameterGridView.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.parameterGridView_CellContentClick);
+            // 
+            // nameDataGridViewTextBoxColumn
+            // 
+            this.nameDataGridViewTextBoxColumn.DataPropertyName = "Name";
+            this.nameDataGridViewTextBoxColumn.HeaderText = "Name";
+            this.nameDataGridViewTextBoxColumn.Name = "nameDataGridViewTextBoxColumn";
+            this.nameDataGridViewTextBoxColumn.Width = 300;
+            // 
+            // valueDataGridViewTextBoxColumn
+            // 
+            this.valueDataGridViewTextBoxColumn.DataPropertyName = "Value";
+            this.valueDataGridViewTextBoxColumn.HeaderText = "Value";
+            this.valueDataGridViewTextBoxColumn.Name = "valueDataGridViewTextBoxColumn";
+            this.valueDataGridViewTextBoxColumn.Width = 400;
+            // 
+            // descriptionDataGridViewTextBoxColumn
+            // 
+            this.descriptionDataGridViewTextBoxColumn.DataPropertyName = "Description";
+            this.descriptionDataGridViewTextBoxColumn.HeaderText = "Description";
+            this.descriptionDataGridViewTextBoxColumn.Name = "descriptionDataGridViewTextBoxColumn";
+            this.descriptionDataGridViewTextBoxColumn.Width = 300;
+            // 
+            // includeVersionDataGridViewTextBoxColumn
+            // 
+            this.includeVersionDataGridViewTextBoxColumn.DataPropertyName = "IncludeVersion";
+            this.includeVersionDataGridViewTextBoxColumn.HeaderText = "IncludeVersion";
+            this.includeVersionDataGridViewTextBoxColumn.Name = "includeVersionDataGridViewTextBoxColumn";
+            // 
+            // decrementVersionDataGridViewTextBoxColumn
+            // 
+            this.decrementVersionDataGridViewTextBoxColumn.DataPropertyName = "DecrementVersion";
+            this.decrementVersionDataGridViewTextBoxColumn.HeaderText = "DecrementVersion";
+            this.decrementVersionDataGridViewTextBoxColumn.Name = "decrementVersionDataGridViewTextBoxColumn";
+            // 
             // configurationParameterBindingSource
             // 
             this.configurationParameterBindingSource.DataSource = typeof(ConfigurationTool.Models.ConfigurationParameter);
@@ -156,12 +215,15 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1070, 603);
+            this.Controls.Add(this.parameterGridView);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "ConfigTool";
             this.Text = "Configuration Tool";
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.parameterGridView)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.configurationParameterBindingSource)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -184,7 +246,13 @@
         private System.Windows.Forms.SaveFileDialog saveFileDialog;
         private System.Windows.Forms.ToolStripMenuItem runConfigurationTaggingToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem runTaggingValidationToolStripMenuItem;
+        private System.Windows.Forms.DataGridView parameterGridView;
         private System.Windows.Forms.BindingSource configurationParameterBindingSource;
+        private System.Windows.Forms.DataGridViewTextBoxColumn nameDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn valueDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn descriptionDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn includeVersionDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn decrementVersionDataGridViewTextBoxColumn;
     }
 }
 
