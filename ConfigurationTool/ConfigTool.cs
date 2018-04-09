@@ -20,7 +20,8 @@ namespace ConfigurationTool
 
         private void HideDataGridView()
         {
-            parameterGridView.Visible = false;
+            editParameterGridView.Visible = false;
+            newParameterDataGridView.Visible = false;
         }
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -42,9 +43,16 @@ namespace ConfigurationTool
                 }
 
                 sr.Close();
-                ShowDataGridView();
-                parameterGridView.DataSource = configurationParameterBindingSource;
+
+                ShowEditParameterDataGridView();
+                HideNewParameterDataGridView();
+                editParameterGridView.DataSource = configurationParameterBindingSource;
             }
+        }
+
+        private void HideNewParameterDataGridView()
+        {
+            newParameterDataGridView.Visible = false;
         }
 
         private IEnumerable<ConfigurationParameter> QueryXml(string filePath)
@@ -111,53 +119,24 @@ namespace ConfigurationTool
 
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ShowDataGridView();
-
+            ShowNewParameterDataGridView();
+            HideEditParameterDataGridView();
         }
 
-        private void ShowDataGridView()
+        private void HideEditParameterDataGridView()
         {
-            parameterGridView.Visible = true;
+            editParameterGridView.Visible = false;
         }
 
-        private void CreateDataGridView()
+        private void ShowNewParameterDataGridView()
         {
-
-
-            parameterGridView.Dock = DockStyle.Fill;
-            parameterGridView.ColumnCount = 5;
-
-            parameterGridView.ColumnHeadersDefaultCellStyle.BackColor = Color.Navy;
-            parameterGridView.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
-            parameterGridView.ColumnHeadersDefaultCellStyle.Font =
-                new Font(parameterGridView.Font, FontStyle.Bold);
-
-            parameterGridView.Name = "songsDataGridView";
-            parameterGridView.Location = new Point(8, 8);
-            parameterGridView.Size = new Size(500, 250);
-            parameterGridView.AutoSizeRowsMode =
-                DataGridViewAutoSizeRowsMode.DisplayedCellsExceptHeaders;
-            parameterGridView.ColumnHeadersBorderStyle =
-                DataGridViewHeaderBorderStyle.Single;
-            parameterGridView.CellBorderStyle = DataGridViewCellBorderStyle.Single;
-            parameterGridView.GridColor = Color.Black;
-            parameterGridView.RowHeadersVisible = false;
-
-            parameterGridView.Columns[0].Name = "Release Date";
-            parameterGridView.Columns[1].Name = "Track";
-            parameterGridView.Columns[2].Name = "Title";
-            parameterGridView.Columns[3].Name = "Artist";
-            parameterGridView.Columns[4].Name = "Album";
-            parameterGridView.Columns[4].DefaultCellStyle.Font =
-                new Font(parameterGridView.DefaultCellStyle.Font, FontStyle.Italic);
-
-            parameterGridView.SelectionMode =
-                DataGridViewSelectionMode.FullRowSelect;
-            parameterGridView.MultiSelect = false;
-            parameterGridView.Dock = DockStyle.Fill;
-            this.Controls.Add(parameterGridView);
+            newParameterDataGridView.Visible = true;
         }
 
+        private void ShowEditParameterDataGridView()
+        {
+            editParameterGridView.Visible = true;
+        }
         private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
         {
 
