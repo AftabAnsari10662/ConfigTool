@@ -17,19 +17,27 @@ namespace ConfigurationTool.Models
         {
             var document = XDocument.Load(filePath);
             var configurationParameters =
-                document.Element("ConfigurationParameters")
+                document
+                .Element("ConfigurationParameters")
                 .Elements("ConfigurationParameter")
-                .Select((x) =>
-                new ConfigurationParameter
-                {
-                    Name = x.Element("Name").Value,
-                    Description = x.Element("Description").Value,
-                    Value = x.Element("Value").Value,
-                    DecrementVersion = x.Element("DecrementVersion").Value,
-                    IncludeVersion = x.Element("IncludeVersion").Value,
-                }).ToList();
+                .Select(TransformToConfigurationParameter)
+                .ToList();
+
             return configurationParameters;
         }
+
+        private ConfigurationParameter TransformToConfigurationParameter(XElement x)
+        {
+            return new ConfigurationParameter
+            {
+                Name = x.Element("Name").Value,
+                Description = x.Element("Description").Value,
+                Value = x.Element("Value").Value,
+                DecrementVersion = x.Element("DecrementVersion").Value,
+                IncludeVersion = x.Element("IncludeVersion").Value,
+            };
+        }
+
         public void SaveConfigurationParameters(
             List<ConfigurationParameter> configParameters, string path)
         {
@@ -53,7 +61,7 @@ namespace ConfigurationTool.Models
 
             }
             document.Add(parameters);
-            document.Save(@path,SaveOptions.None);
+            document.Save(@path, SaveOptions.None);
         }
     }
 }
