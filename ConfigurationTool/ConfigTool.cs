@@ -22,7 +22,7 @@ namespace ConfigurationTool
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            configurationParameterBindingSource.Clear();
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
                 StreamReader sr = new StreamReader(openFileDialog.FileName);
@@ -103,11 +103,20 @@ namespace ConfigurationTool
 
                 var parameter = new ConfigurationParameter
                 {
-                    Name = editParameterGridView.Rows[rows].Cells[0].Value.ToString(),
-                    Value = editParameterGridView.Rows[rows].Cells[1].Value.ToString(),
-                    Description = editParameterGridView.Rows[rows].Cells[2].Value.ToString(),
-                    DecrementVersion = editParameterGridView.Rows[rows].Cells[3].Value.ToString(),
-                    IncludeVersion = editParameterGridView.Rows[rows].Cells[4].Value.ToString()
+                    Name = editParameterGridView.Rows[rows].Cells[0].Value == null ?
+                               editParameterGridView.Rows[rows].Cells[0].Value.ToString() : "",
+
+                    Value = editParameterGridView.Rows[rows].Cells[1].Value == null ?
+                                editParameterGridView.Rows[rows].Cells[1].Value.ToString() : "",
+
+                    Description = editParameterGridView.Rows[rows].Cells[2].Value == null ?
+                                  editParameterGridView.Rows[rows].Cells[2].Value.ToString() : "",
+
+                    DecrementVersion = editParameterGridView.Rows[rows].Cells[3] == null ?
+                                           editParameterGridView.Rows[rows].Cells[3].Value.ToString() : "",
+
+                    IncludeVersion = editParameterGridView.Rows[rows].Cells[4] == null ?
+                                       editParameterGridView.Rows[rows].Cells[4].Value.ToString() : ""
                 };
                 parameters.Add(parameter);
             }
@@ -151,7 +160,7 @@ namespace ConfigurationTool
             {
 
                 if (
-                    MessageBox.Show("Are you sure want to delete this record?","Message",
+                    MessageBox.Show("Are you sure want to delete this record?", "Message",
                     MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes
                     )
                 {
