@@ -115,10 +115,10 @@ namespace ConfigurationTool
                     Description = editParameterGridView.Rows[rows].Cells[2].Value == null ?
                                   "" : editParameterGridView.Rows[rows].Cells[2].Value.ToString(),
 
-                    DecrementVersion = editParameterGridView.Rows[rows].Cells[3] == null ?
+                    DecrementVersion = editParameterGridView.Rows[rows].Cells[3].Value == null ?
                                           "" : editParameterGridView.Rows[rows].Cells[3].Value.ToString(),
 
-                    IncludeVersion = editParameterGridView.Rows[rows].Cells[4] == null ?
+                    IncludeVersion = editParameterGridView.Rows[rows].Cells[4].Value == null ?
                                        "" : editParameterGridView.Rows[rows].Cells[4].Value.ToString()
                 };
                 parameters.Add(parameter);
@@ -180,26 +180,25 @@ namespace ConfigurationTool
         private List<ConfigurationParameter> GetConfigParametersFromNewDataGridView()
         {
             var parameters = new List<ConfigurationParameter>();
+
             for (int rows = 0; rows < newParameterDataGridView.Rows.Count - 1; rows++)
             {
 
-                var parameter = new ConfigurationParameter
-                {
-                    Name = newParameterDataGridView.Rows[rows].Cells[0].Value == null ?
-                               "" : newParameterDataGridView.Rows[rows].Cells[0].Value.ToString(),
+                var parameter = new ConfigurationParameter();
+                parameter.Name = newParameterDataGridView.Rows[rows].Cells[0].Value == null ?
+                          "" : newParameterDataGridView.Rows[rows].Cells[0].Value.ToString();
 
-                    Value = newParameterDataGridView.Rows[rows].Cells[1].Value == null ?
-                                "" : newParameterDataGridView.Rows[rows].Cells[1].Value.ToString(),
+                parameter.Value = newParameterDataGridView.Rows[rows].Cells[1].Value == null ?
+                            "" : newParameterDataGridView.Rows[rows].Cells[1].Value.ToString();
 
-                    Description = newParameterDataGridView.Rows[rows].Cells[2].Value == null ?
-                                  "" : newParameterDataGridView.Rows[rows].Cells[2].Value.ToString(),
+                parameter.Description = newParameterDataGridView.Rows[rows].Cells[2].Value == null ?
+                              "" : newParameterDataGridView.Rows[rows].Cells[2].Value.ToString();
 
-                    DecrementVersion = newParameterDataGridView.Rows[rows].Cells[3] == null ?
-                                          "" : newParameterDataGridView.Rows[rows].Cells[3].Value.ToString(),
+                parameter.DecrementVersion = newParameterDataGridView.Rows[rows].Cells[3].Value == null ?
+                                      "" : newParameterDataGridView.Rows[rows].Cells[3].Value.ToString();
 
-                    IncludeVersion = newParameterDataGridView.Rows[rows].Cells[4] == null ?
-                                       "" : newParameterDataGridView.Rows[rows].Cells[4].Value.ToString()
-                };
+                parameter.IncludeVersion = newParameterDataGridView.Rows[rows].Cells[4].Value == null ?
+                                   "" : newParameterDataGridView.Rows[rows].Cells[4].Value.ToString();
                 parameters.Add(parameter);
             }
             return parameters;
