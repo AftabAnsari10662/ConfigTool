@@ -156,7 +156,7 @@ namespace ConfigurationTool
 
         private void newParameterDataGridView_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (newParameterDataGridView.Columns[e.ColumnIndex].Name == "Delete")
+            if (newParameterDataGridView.Columns[e.ColumnIndex].Name == "DeleteRow")
             {
 
                 if (
