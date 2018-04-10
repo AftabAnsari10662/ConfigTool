@@ -61,7 +61,7 @@ namespace ConfigurationTool.Models
 
             }
             document.Add(parameters);
-            document.Save(@path, SaveOptions.None);
+            document.Save("test90.xml", SaveOptions.None);
         }
     }
 }
