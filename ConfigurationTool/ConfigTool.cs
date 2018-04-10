@@ -20,27 +20,14 @@ namespace ConfigurationTool
             service = new ConfigurationService();
         }
 
-        private void HideDataGridView()
-        {
-            editParameterGridView.Visible = false;
-            newParameterDataGridView.Visible = false;
-        }
-
-        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
-        }
-
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
-
 
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
                 StreamReader sr = new StreamReader(openFileDialog.FileName);
 
-                var configurationParameters = QueryXml(openFileDialog.FileName);
+                var configurationParameters = service.QueryXml(openFileDialog.FileName);
 
                 foreach (var parameter in configurationParameters)
                 {
@@ -61,23 +48,6 @@ namespace ConfigurationTool
             newParameterDataGridView.Visible = false;
         }
 
-        private IEnumerable<ConfigurationParameter> QueryXml(string filePath)
-        {
-            var document = XDocument.Load(filePath);
-            var configurationParameters =
-                document.Element("ConfigurationParameters")
-                .Elements("ConfigurationParameter")
-                .Select((x) =>
-                new ConfigurationParameter
-                {
-                    Name = x.Element("Name").Value,
-                    Description = x.Element("Description").Value,
-                    Value = x.Element("Value").Value,
-                    DecrementVersion = x.Element("DecrementVersion").Value,
-                    IncludeVersion = x.Element("IncludeVersion").Value,
-                }).ToList();
-            return configurationParameters;
-        }
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -164,24 +134,16 @@ namespace ConfigurationTool
         {
             editParameterGridView.Visible = true;
         }
+
+        private void HideDataGridView()
+        {
+            editParameterGridView.Visible = false;
+            newParameterDataGridView.Visible = false;
+        }
         private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
         {
 
         }
 
-        private void runConfigurationTaggingToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void runTaggingValidationToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void parameterGridView_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
-        }
     }
 }

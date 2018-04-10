@@ -138,14 +138,12 @@
             this.runConfigurationTaggingToolStripMenuItem.Name = "runConfigurationTaggingToolStripMenuItem";
             this.runConfigurationTaggingToolStripMenuItem.Size = new System.Drawing.Size(309, 30);
             this.runConfigurationTaggingToolStripMenuItem.Text = "Run Configuration Tagging";
-            this.runConfigurationTaggingToolStripMenuItem.Click += new System.EventHandler(this.runConfigurationTaggingToolStripMenuItem_Click);
             // 
             // runTaggingValidationToolStripMenuItem
             // 
             this.runTaggingValidationToolStripMenuItem.Name = "runTaggingValidationToolStripMenuItem";
             this.runTaggingValidationToolStripMenuItem.Size = new System.Drawing.Size(309, 30);
             this.runTaggingValidationToolStripMenuItem.Text = "Run Tagging Validation";
-            this.runTaggingValidationToolStripMenuItem.Click += new System.EventHandler(this.runTaggingValidationToolStripMenuItem_Click);
             // 
             // printToolStripMenuItem
             // 
@@ -180,7 +178,7 @@
             this.editParameterGridView.RowTemplate.Height = 28;
             this.editParameterGridView.Size = new System.Drawing.Size(1070, 570);
             this.editParameterGridView.TabIndex = 1;
-            this.editParameterGridView.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.parameterGridView_CellContentClick);
+           
             // 
             // nameDataGridViewTextBoxColumn
             // 

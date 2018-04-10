@@ -13,6 +13,23 @@ namespace ConfigurationTool.Models
 
         }
 
+        public IEnumerable<ConfigurationParameter> QueryXml(string filePath)
+        {
+            var document = XDocument.Load(filePath);
+            var configurationParameters =
+                document.Element("ConfigurationParameters")
+                .Elements("ConfigurationParameter")
+                .Select((x) =>
+                new ConfigurationParameter
+                {
+                    Name = x.Element("Name").Value,
+                    Description = x.Element("Description").Value,
+                    Value = x.Element("Value").Value,
+                    DecrementVersion = x.Element("DecrementVersion").Value,
+                    IncludeVersion = x.Element("IncludeVersion").Value,
+                }).ToList();
+            return configurationParameters;
+        }
         public void SaveConfigurationParameters(
             List<ConfigurationParameter> configParameters, string path)
         {
