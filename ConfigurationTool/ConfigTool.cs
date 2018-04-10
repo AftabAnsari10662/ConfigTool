@@ -145,5 +145,34 @@ namespace ConfigurationTool
 
         }
 
+        private void newParameterDataGridView_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (newParameterDataGridView.Columns[e.ColumnIndex].Name == "Delete")
+            {
+
+                if (
+                    MessageBox.Show("Are you sure want to delete this record?","Message",
+                    MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes
+                    )
+                {
+                    newConfigurationParameterBindingSource.RemoveCurrent();
+                }
+            }
+        }
+
+        private void editParameterGridView_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (editParameterGridView.Columns[e.ColumnIndex].Name == "Delete")
+            {
+
+                if (
+                    MessageBox.Show("Are you sure want to delete this record?", "Message",
+                    MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes
+                    )
+                {
+                    configurationParameterBindingSource.RemoveCurrent();
+                }
+            }
+        }
     }
 }
