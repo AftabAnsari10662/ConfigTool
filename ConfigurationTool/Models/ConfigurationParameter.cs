@@ -8,7 +8,9 @@ namespace ConfigurationTool.Models
 {
     public class ConfigurationParameter
     {
-        public string Name { get; set; }
+        public string ApplicationName { get; set; }
+        public string KeyName { get; set; }
+        public string TaggedValue { get; set; }
         public string Value { get; set; }
         public string Description { get; set; }
         public string IncludeVersion { get; set; }

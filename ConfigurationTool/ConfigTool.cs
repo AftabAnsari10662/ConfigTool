@@ -72,14 +72,14 @@ namespace ConfigurationTool
                 var data = new List<ConfigurationParameter>{
                 new ConfigurationParameter
                 {
-                    Name = "IdentityUrl",
+                    KeyName = "IdentityUrl",
                     Value= "http://localhost:8080",
                     Description = "identity url",
                      IncludeVersion = "1.0",
                       DecrementVersion = "1.0"
                 },new ConfigurationParameter
                 {
-                    Name = "clientId",
+                    KeyName = "clientId",
                     Value= "87327373",
                     Description = "client id",
                      IncludeVersion = "1.0",
@@ -106,7 +106,7 @@ namespace ConfigurationTool
 
                 var parameter = new ConfigurationParameter
                 {
-                    Name = editParameterGridView.Rows[rows].Cells[0].Value == null ?
+                    KeyName = editParameterGridView.Rows[rows].Cells[0].Value == null ?
                                "" : editParameterGridView.Rows[rows].Cells[0].Value.ToString(),
 
                     Value = editParameterGridView.Rows[rows].Cells[1].Value == null ?
@@ -185,7 +185,7 @@ namespace ConfigurationTool
             {
 
                 var parameter = new ConfigurationParameter();
-                parameter.Name = newParameterDataGridView.Rows[rows].Cells[0].Value == null ?
+                parameter.KeyName = newParameterDataGridView.Rows[rows].Cells[0].Value == null ?
                           "" : newParameterDataGridView.Rows[rows].Cells[0].Value.ToString();
 
                 parameter.Value = newParameterDataGridView.Rows[rows].Cells[1].Value == null ?
