@@ -230,9 +230,15 @@ namespace ConfigurationTool
                 var value = editParameterGridView[e.ColumnIndex, e.RowIndex].Value;
                 var taggedValue = editParameterGridView[3, e.RowIndex].Value;
 
-                editParameterGridView.Rows[0].Cells[1].Value = "Aftab";
+                for (int rows = 0; rows < editParameterGridView.Rows.Count - 1; rows++)
+                {
+                    if (editParameterGridView.Rows[rows].Cells[3].Value == taggedValue)
+                    {
+                        editParameterGridView.Rows[rows].Cells[2].Value = value;
+                    }
 
-                var test = editParameterGridView.Rows[0].Cells[1].Value;
+                }
+                   
             }
 
         }
