@@ -1,4 +1,7 @@
-﻿namespace ConfigurationTool
+﻿using System;
+using System.Windows.Forms;
+
+namespace ConfigurationTool
 {
     partial class ConfigTool
     {
@@ -50,30 +53,30 @@
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.editParameterGridView = new System.Windows.Forms.DataGridView();
-            this.newConfigurationParameterBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.configurationParameterBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.ApplicationName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.KeyName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.valueDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.TaggedValue = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Delete = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.newParameterDataGridView = new System.Windows.Forms.DataGridView();
+            this.newConfigurationParameterBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.valueDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.descriptionDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.includeVersionDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.decrementVersionDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Delete = new System.Windows.Forms.DataGridViewButtonColumn();
-            this.newParameterDataGridView = new System.Windows.Forms.DataGridView();
+            this.configurationParameterBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.applicationNameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.keyNameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.taggedValueDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.valueDataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.taggedValueDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.descriptionDataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.includeVersionDataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.decrementVersionDataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.DeleteRow = new System.Windows.Forms.DataGridViewButtonColumn();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.editParameterGridView)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.newParameterDataGridView)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.newConfigurationParameterBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.configurationParameterBindingSource)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.newParameterDataGridView)).BeginInit();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -218,14 +221,7 @@
             this.editParameterGridView.Size = new System.Drawing.Size(1070, 570);
             this.editParameterGridView.TabIndex = 1;
             this.editParameterGridView.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.editParameterGridView_CellContentClick);
-            // 
-            // newConfigurationParameterBindingSource
-            // 
-            this.newConfigurationParameterBindingSource.DataSource = typeof(ConfigurationTool.Models.ConfigurationParameter);
-            // 
-            // configurationParameterBindingSource
-            // 
-            this.configurationParameterBindingSource.DataSource = typeof(ConfigurationTool.Models.ConfigurationParameter);
+            this.editParameterGridView.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.editParameterGridView_CellValueChanged);
             // 
             // ApplicationName
             // 
@@ -241,39 +237,12 @@
             this.KeyName.Name = "KeyName";
             this.KeyName.ReadOnly = true;
             // 
-            // valueDataGridViewTextBoxColumn
-            // 
-            this.valueDataGridViewTextBoxColumn.DataPropertyName = "Value";
-            this.valueDataGridViewTextBoxColumn.HeaderText = "Value";
-            this.valueDataGridViewTextBoxColumn.Name = "valueDataGridViewTextBoxColumn";
-            this.valueDataGridViewTextBoxColumn.Width = 300;
-            // 
             // TaggedValue
             // 
             this.TaggedValue.DataPropertyName = "TaggedValue";
             this.TaggedValue.HeaderText = "TaggedValue";
             this.TaggedValue.Name = "TaggedValue";
             this.TaggedValue.ReadOnly = true;
-            // 
-            // descriptionDataGridViewTextBoxColumn
-            // 
-            this.descriptionDataGridViewTextBoxColumn.DataPropertyName = "Description";
-            this.descriptionDataGridViewTextBoxColumn.HeaderText = "Description";
-            this.descriptionDataGridViewTextBoxColumn.Name = "descriptionDataGridViewTextBoxColumn";
-            this.descriptionDataGridViewTextBoxColumn.ReadOnly = true;
-            this.descriptionDataGridViewTextBoxColumn.Width = 300;
-            // 
-            // includeVersionDataGridViewTextBoxColumn
-            // 
-            this.includeVersionDataGridViewTextBoxColumn.DataPropertyName = "IncludeVersion";
-            this.includeVersionDataGridViewTextBoxColumn.HeaderText = "IncludeVersion";
-            this.includeVersionDataGridViewTextBoxColumn.Name = "includeVersionDataGridViewTextBoxColumn";
-            // 
-            // decrementVersionDataGridViewTextBoxColumn
-            // 
-            this.decrementVersionDataGridViewTextBoxColumn.DataPropertyName = "DecrementVersion";
-            this.decrementVersionDataGridViewTextBoxColumn.HeaderText = "DecrementVersion";
-            this.decrementVersionDataGridViewTextBoxColumn.Name = "decrementVersionDataGridViewTextBoxColumn";
             // 
             // Delete
             // 
@@ -297,8 +266,8 @@
             this.newParameterDataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.applicationNameDataGridViewTextBoxColumn,
             this.keyNameDataGridViewTextBoxColumn,
-            this.taggedValueDataGridViewTextBoxColumn,
             this.valueDataGridViewTextBoxColumn1,
+            this.taggedValueDataGridViewTextBoxColumn,
             this.descriptionDataGridViewTextBoxColumn1,
             this.includeVersionDataGridViewTextBoxColumn1,
             this.decrementVersionDataGridViewTextBoxColumn1,
@@ -327,6 +296,41 @@
             this.newParameterDataGridView.Size = new System.Drawing.Size(1070, 570);
             this.newParameterDataGridView.TabIndex = 9;
             // 
+            // newConfigurationParameterBindingSource
+            // 
+            this.newConfigurationParameterBindingSource.DataSource = typeof(ConfigurationTool.Models.ConfigurationParameter);
+            // 
+            // valueDataGridViewTextBoxColumn
+            // 
+            this.valueDataGridViewTextBoxColumn.DataPropertyName = "Value";
+            this.valueDataGridViewTextBoxColumn.HeaderText = "Value";
+            this.valueDataGridViewTextBoxColumn.Name = "valueDataGridViewTextBoxColumn";
+            this.valueDataGridViewTextBoxColumn.Width = 300;
+            // 
+            // descriptionDataGridViewTextBoxColumn
+            // 
+            this.descriptionDataGridViewTextBoxColumn.DataPropertyName = "Description";
+            this.descriptionDataGridViewTextBoxColumn.HeaderText = "Description";
+            this.descriptionDataGridViewTextBoxColumn.Name = "descriptionDataGridViewTextBoxColumn";
+            this.descriptionDataGridViewTextBoxColumn.ReadOnly = true;
+            this.descriptionDataGridViewTextBoxColumn.Width = 300;
+            // 
+            // includeVersionDataGridViewTextBoxColumn
+            // 
+            this.includeVersionDataGridViewTextBoxColumn.DataPropertyName = "IncludeVersion";
+            this.includeVersionDataGridViewTextBoxColumn.HeaderText = "IncludeVersion";
+            this.includeVersionDataGridViewTextBoxColumn.Name = "includeVersionDataGridViewTextBoxColumn";
+            // 
+            // decrementVersionDataGridViewTextBoxColumn
+            // 
+            this.decrementVersionDataGridViewTextBoxColumn.DataPropertyName = "DecrementVersion";
+            this.decrementVersionDataGridViewTextBoxColumn.HeaderText = "DecrementVersion";
+            this.decrementVersionDataGridViewTextBoxColumn.Name = "decrementVersionDataGridViewTextBoxColumn";
+            // 
+            // configurationParameterBindingSource
+            // 
+            this.configurationParameterBindingSource.DataSource = typeof(ConfigurationTool.Models.ConfigurationParameter);
+            // 
             // applicationNameDataGridViewTextBoxColumn
             // 
             this.applicationNameDataGridViewTextBoxColumn.DataPropertyName = "ApplicationName";
@@ -339,17 +343,17 @@
             this.keyNameDataGridViewTextBoxColumn.HeaderText = "KeyName";
             this.keyNameDataGridViewTextBoxColumn.Name = "keyNameDataGridViewTextBoxColumn";
             // 
-            // taggedValueDataGridViewTextBoxColumn
-            // 
-            this.taggedValueDataGridViewTextBoxColumn.DataPropertyName = "TaggedValue";
-            this.taggedValueDataGridViewTextBoxColumn.HeaderText = "TaggedValue";
-            this.taggedValueDataGridViewTextBoxColumn.Name = "taggedValueDataGridViewTextBoxColumn";
-            // 
             // valueDataGridViewTextBoxColumn1
             // 
             this.valueDataGridViewTextBoxColumn1.DataPropertyName = "Value";
             this.valueDataGridViewTextBoxColumn1.HeaderText = "Value";
             this.valueDataGridViewTextBoxColumn1.Name = "valueDataGridViewTextBoxColumn1";
+            // 
+            // taggedValueDataGridViewTextBoxColumn
+            // 
+            this.taggedValueDataGridViewTextBoxColumn.DataPropertyName = "TaggedValue";
+            this.taggedValueDataGridViewTextBoxColumn.HeaderText = "TaggedValue";
+            this.taggedValueDataGridViewTextBoxColumn.Name = "taggedValueDataGridViewTextBoxColumn";
             // 
             // descriptionDataGridViewTextBoxColumn1
             // 
@@ -394,9 +398,9 @@
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.editParameterGridView)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.newParameterDataGridView)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.newConfigurationParameterBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.configurationParameterBindingSource)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.newParameterDataGridView)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -432,8 +436,8 @@
         private System.Windows.Forms.DataGridView newParameterDataGridView;
         private System.Windows.Forms.DataGridViewTextBoxColumn applicationNameDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn keyNameDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn taggedValueDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn valueDataGridViewTextBoxColumn1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn taggedValueDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn descriptionDataGridViewTextBoxColumn1;
         private System.Windows.Forms.DataGridViewTextBoxColumn includeVersionDataGridViewTextBoxColumn1;
         private System.Windows.Forms.DataGridViewTextBoxColumn decrementVersionDataGridViewTextBoxColumn1;

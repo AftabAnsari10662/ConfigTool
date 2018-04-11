@@ -64,34 +64,11 @@ namespace ConfigurationTool
             saveFileDialog1.Filter = "Xml File|*.xml";
             saveFileDialog1.Title = "Save an XML File";
             saveFileDialog1.ShowDialog();
-
-            // If the file name is not an empty string open it for saving.  
             if (saveFileDialog1.FileName != "")
             {
-
-                var data = new List<ConfigurationParameter>{
-                new ConfigurationParameter
-                {
-                    KeyName = "IdentityUrl",
-                    Value= "http://localhost:8080",
-                    Description = "identity url",
-                     IncludeVersion = "1.0",
-                      DecrementVersion = "1.0"
-                },new ConfigurationParameter
-                {
-                    KeyName = "clientId",
-                    Value= "87327373",
-                    Description = "client id",
-                     IncludeVersion = "1.0",
-                      DecrementVersion = "1.0"
-                }
-            };
-                var filePath = saveFileDialog1.FileName.Replace(@"\\", @"\");
-                var filePath2 = Path.GetFullPath(filePath);
-                service.SaveConfigurationParameters(data, filePath);
-
+                var parameters = GetConfigParametersFromNewDataGridView();
+                service.SaveConfigurationParameters(parameters, "");
                 FileStream fs = (FileStream)saveFileDialog1.OpenFile();
-
                 fs.Close();
             }
 
@@ -106,20 +83,26 @@ namespace ConfigurationTool
 
                 var parameter = new ConfigurationParameter
                 {
-                    KeyName = editParameterGridView.Rows[rows].Cells[0].Value == null ?
-                               "" : editParameterGridView.Rows[rows].Cells[0].Value.ToString(),
+                    ApplicationName = editParameterGridView.Rows[rows].Cells[0].Value == null ?
+                         "" : editParameterGridView.Rows[rows].Cells[0].Value.ToString(),
 
-                    Value = editParameterGridView.Rows[rows].Cells[1].Value == null ?
-                                "" : editParameterGridView.Rows[rows].Cells[1].Value.ToString(),
+                    KeyName = editParameterGridView.Rows[rows].Cells[1].Value == null ?
+                               "" : editParameterGridView.Rows[rows].Cells[1].Value.ToString(),
 
-                    Description = editParameterGridView.Rows[rows].Cells[2].Value == null ?
-                                  "" : editParameterGridView.Rows[rows].Cells[2].Value.ToString(),
+                    Value = editParameterGridView.Rows[rows].Cells[2].Value == null ?
+                                "" : editParameterGridView.Rows[rows].Cells[2].Value.ToString(),
 
-                    DecrementVersion = editParameterGridView.Rows[rows].Cells[3].Value == null ?
-                                          "" : editParameterGridView.Rows[rows].Cells[3].Value.ToString(),
+                    TaggedValue = newParameterDataGridView.Rows[rows].Cells[3].Value == null ?
+                          "" : newParameterDataGridView.Rows[rows].Cells[3].Value.ToString(),
 
-                    IncludeVersion = editParameterGridView.Rows[rows].Cells[4].Value == null ?
-                                       "" : editParameterGridView.Rows[rows].Cells[4].Value.ToString()
+                    Description = editParameterGridView.Rows[rows].Cells[4].Value == null ?
+                                  "" : editParameterGridView.Rows[rows].Cells[4].Value.ToString(),
+
+                    DecrementVersion = editParameterGridView.Rows[rows].Cells[5].Value == null ?
+                                          "" : editParameterGridView.Rows[rows].Cells[5].Value.ToString(),
+
+                    IncludeVersion = editParameterGridView.Rows[rows].Cells[6].Value == null ?
+                                       "" : editParameterGridView.Rows[rows].Cells[6].Value.ToString()
                 };
                 parameters.Add(parameter);
             }
@@ -185,20 +168,27 @@ namespace ConfigurationTool
             {
 
                 var parameter = new ConfigurationParameter();
-                parameter.KeyName = newParameterDataGridView.Rows[rows].Cells[0].Value == null ?
-                          "" : newParameterDataGridView.Rows[rows].Cells[0].Value.ToString();
+                parameter.ApplicationName = newParameterDataGridView.Rows[rows].Cells[0].Value == null ?
+                         "" : newParameterDataGridView.Rows[rows].Cells[0].Value.ToString();
 
-                parameter.Value = newParameterDataGridView.Rows[rows].Cells[1].Value == null ?
-                            "" : newParameterDataGridView.Rows[rows].Cells[1].Value.ToString();
+                parameter.KeyName = newParameterDataGridView.Rows[rows].Cells[1].Value == null ?
+                          "" : newParameterDataGridView.Rows[rows].Cells[1].Value.ToString();
 
-                parameter.Description = newParameterDataGridView.Rows[rows].Cells[2].Value == null ?
-                              "" : newParameterDataGridView.Rows[rows].Cells[2].Value.ToString();
+                parameter.Value = newParameterDataGridView.Rows[rows].Cells[2].Value == null ?
+                            "" : newParameterDataGridView.Rows[rows].Cells[2].Value.ToString();
 
-                parameter.DecrementVersion = newParameterDataGridView.Rows[rows].Cells[3].Value == null ?
-                                      "" : newParameterDataGridView.Rows[rows].Cells[3].Value.ToString();
+                parameter.TaggedValue = newParameterDataGridView.Rows[rows].Cells[3].Value == null ?
+                          "" : newParameterDataGridView.Rows[rows].Cells[3].Value.ToString();
 
-                parameter.IncludeVersion = newParameterDataGridView.Rows[rows].Cells[4].Value == null ?
-                                   "" : newParameterDataGridView.Rows[rows].Cells[4].Value.ToString();
+                parameter.Description = newParameterDataGridView.Rows[rows].Cells[4].Value == null ?
+                              "" : newParameterDataGridView.Rows[rows].Cells[4].Value.ToString();
+
+                parameter.DecrementVersion = newParameterDataGridView.Rows[rows].Cells[5].Value == null ?
+                                      "" : newParameterDataGridView.Rows[rows].Cells[5].Value.ToString();
+
+                parameter.IncludeVersion = newParameterDataGridView.Rows[rows].Cells[6].Value == null ?
+                                   "" : newParameterDataGridView.Rows[rows].Cells[6].Value.ToString();
+
                 parameters.Add(parameter);
             }
             return parameters;
@@ -233,5 +223,19 @@ namespace ConfigurationTool
                 }
             }
         }
+        private void editParameterGridView_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex>-1)
+            {
+                var value = editParameterGridView[e.ColumnIndex, e.RowIndex].Value;
+                var taggedValue = editParameterGridView[3, e.RowIndex].Value;
+
+                editParameterGridView.Rows[0].Cells[1].Value = "Aftab";
+
+                var test = editParameterGridView.Rows[0].Cells[1].Value;
+            }
+
+        }
+
     }
 }
