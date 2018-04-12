@@ -64,34 +64,12 @@ namespace ConfigurationTool
             saveFileDialog1.Filter = "Xml File|*.xml";
             saveFileDialog1.Title = "Save an XML File";
             saveFileDialog1.ShowDialog();
-
-            // If the file name is not an empty string open it for saving.  
+             
             if (saveFileDialog1.FileName != "")
             {
-
-                var data = new List<ConfigurationParameter>{
-                new ConfigurationParameter
-                {
-                    Name = "IdentityUrl",
-                    Value= "http://localhost:8080",
-                    Description = "identity url",
-                     IncludeVersion = "1.0",
-                      DecrementVersion = "1.0"
-                },new ConfigurationParameter
-                {
-                    Name = "clientId",
-                    Value= "87327373",
-                    Description = "client id",
-                     IncludeVersion = "1.0",
-                      DecrementVersion = "1.0"
-                }
-            };
-                var filePath = saveFileDialog1.FileName.Replace(@"\\", @"\");
-                var filePath2 = Path.GetFullPath(filePath);
-                service.SaveConfigurationParameters(data, filePath);
-
+                var parameters = GetConfigParametersFromNewDataGridView();
+                service.SaveConfigurationParameters(parameters, saveFileDialog1.FileName);
                 FileStream fs = (FileStream)saveFileDialog1.OpenFile();
-
                 fs.Close();
             }
 
@@ -106,7 +84,7 @@ namespace ConfigurationTool
 
                 var parameter = new ConfigurationParameter
                 {
-                    Name = editParameterGridView.Rows[rows].Cells[0].Value == null ?
+                    TagName = editParameterGridView.Rows[rows].Cells[0].Value == null ?
                                "" : editParameterGridView.Rows[rows].Cells[0].Value.ToString(),
 
                     Value = editParameterGridView.Rows[rows].Cells[1].Value == null ?
@@ -185,7 +163,7 @@ namespace ConfigurationTool
             {
 
                 var parameter = new ConfigurationParameter();
-                parameter.Name = newParameterDataGridView.Rows[rows].Cells[0].Value == null ?
+                parameter.TagName = newParameterDataGridView.Rows[rows].Cells[0].Value == null ?
                           "" : newParameterDataGridView.Rows[rows].Cells[0].Value.ToString();
 
                 parameter.Value = newParameterDataGridView.Rows[rows].Cells[1].Value == null ?
@@ -231,6 +209,18 @@ namespace ConfigurationTool
                 {
                     configurationParameterBindingSource.RemoveCurrent();
                 }
+            }
+        }
+
+        private void closeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+            if (
+                MessageBox.Show("Are you sure want to close the Application?", "Message",
+                MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes
+                )
+            {
+                Application.Exit();
             }
         }
     }

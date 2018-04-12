@@ -30,7 +30,7 @@ namespace ConfigurationTool.Models
         {
             return new ConfigurationParameter
             {
-                Name = x.Element("Name").Value,
+                TagName = x.Element("TagName").Value,
                 Description = x.Element("Description").Value,
                 Value = x.Element("Value").Value,
                 DecrementVersion = x.Element("DecrementVersion").Value,
@@ -47,7 +47,7 @@ namespace ConfigurationTool.Models
             foreach (var parameter in configParameters)
             {
                 var configurationParameter = new XElement("ConfigurationParameter");
-                var name = new XElement("Name", parameter.Name);
+                var name = new XElement("TagName", parameter.TagName);
                 var value = new XElement("Value", parameter.Value);
                 var description = new XElement("Description", parameter.Description);
                 var includeVersion = new XElement("IncludeVersion", parameter.IncludeVersion);
