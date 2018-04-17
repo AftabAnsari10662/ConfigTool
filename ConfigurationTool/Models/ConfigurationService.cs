@@ -13,7 +13,7 @@ namespace ConfigurationTool.Models
 
         }
 
-        public IEnumerable<ConfigurationParameter> QueryXml(string filePath)
+        public List<ConfigurationParameter> QueryXml(string filePath)
         {
             var document = XDocument.Load(filePath);
             var configurationParameters =
@@ -33,8 +33,9 @@ namespace ConfigurationTool.Models
                 TagName = x.Element("TagName").Value,
                 Description = x.Element("Description").Value,
                 Value = x.Element("Value").Value,
-                DecrementVersion = x.Element("DecrementVersion").Value,
-                IncludeVersion = x.Element("IncludeVersion").Value,
+                SampleValue = x.Element("SampleValue").Value,
+                VersionAdded = x.Element("VersionAdded").Value,
+                VersionDeprecated = x.Element("VersionDeprecated").Value,
             };
         }
 
@@ -47,21 +48,25 @@ namespace ConfigurationTool.Models
             foreach (var parameter in configParameters)
             {
                 var configurationParameter = new XElement("ConfigurationParameter");
-                var name = new XElement("TagName", parameter.TagName);
+                var applicationName = new XElement("ApplicationName", parameter.ApplicationName);
+                var tagName = new XElement("TagName", parameter.TagName);
                 var value = new XElement("Value", parameter.Value);
+                var sampleValue = new XElement("SampleValue", parameter.Value);
                 var description = new XElement("Description", parameter.Description);
-                var includeVersion = new XElement("IncludeVersion", parameter.IncludeVersion);
-                var decrementVersion = new XElement("DecrementVersion", parameter.DecrementVersion);
-                configurationParameter.Add(name);
+                var versionAdded = new XElement("VersionAdded", parameter.VersionAdded);
+                var versionDeprecated = new XElement("VersionDeprecated", parameter.VersionDeprecated);
+                configurationParameter.Add(applicationName);
+                configurationParameter.Add(tagName);
                 configurationParameter.Add(value);
+                configurationParameter.Add(sampleValue);
                 configurationParameter.Add(description);
-                configurationParameter.Add(includeVersion);
-                configurationParameter.Add(decrementVersion);
+                configurationParameter.Add(versionAdded);
+                configurationParameter.Add(versionDeprecated);
                 parameters.Add(configurationParameter);
 
             }
             document.Add(parameters);
-            document.Save("test90.xml", SaveOptions.None);
+            document.Save("tagConfigration.xml");
         }
     }
 }

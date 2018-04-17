@@ -93,10 +93,10 @@ namespace ConfigurationTool
                     Description = editParameterGridView.Rows[rows].Cells[2].Value == null ?
                                   "" : editParameterGridView.Rows[rows].Cells[2].Value.ToString(),
 
-                    DecrementVersion = editParameterGridView.Rows[rows].Cells[3].Value == null ?
+                    VersionAdded = editParameterGridView.Rows[rows].Cells[3].Value == null ?
                                           "" : editParameterGridView.Rows[rows].Cells[3].Value.ToString(),
 
-                    IncludeVersion = editParameterGridView.Rows[rows].Cells[4].Value == null ?
+                    VersionDeprecated = editParameterGridView.Rows[rows].Cells[4].Value == null ?
                                        "" : editParameterGridView.Rows[rows].Cells[4].Value.ToString()
                 };
                 parameters.Add(parameter);
@@ -138,20 +138,21 @@ namespace ConfigurationTool
             saveFileDialog.Title = "Save an XML File";
             saveFileDialog.ShowDialog();
 
-            // If the file name is not an empty string open it for saving.  
+            List<ConfigurationParameter> parameters = new List<ConfigurationParameter>(); 
             if (saveFileDialog.FileName != "")
             {
 
                 if (hasXMLFileBeenOpened)
                 {
-                    var parameters = GetConfigParametersFromEditDataGridView();
-                    service.SaveConfigurationParameters(parameters, "");
+                    parameters = GetConfigParametersFromEditDataGridView();
                 }
                 else
                 {
-                    var parameters = GetConfigParametersFromNewDataGridView();
-                    service.SaveConfigurationParameters(parameters, "");
+                    parameters = GetConfigParametersFromNewDataGridView();
                 }
+
+                service.SaveConfigurationParameters(parameters, "");
+
             }
         }
 
@@ -172,10 +173,10 @@ namespace ConfigurationTool
                 parameter.Description = newParameterDataGridView.Rows[rows].Cells[2].Value == null ?
                               "" : newParameterDataGridView.Rows[rows].Cells[2].Value.ToString();
 
-                parameter.DecrementVersion = newParameterDataGridView.Rows[rows].Cells[3].Value == null ?
+                parameter.VersionAdded = newParameterDataGridView.Rows[rows].Cells[3].Value == null ?
                                       "" : newParameterDataGridView.Rows[rows].Cells[3].Value.ToString();
 
-                parameter.IncludeVersion = newParameterDataGridView.Rows[rows].Cells[4].Value == null ?
+                parameter.VersionDeprecated = newParameterDataGridView.Rows[rows].Cells[4].Value == null ?
                                    "" : newParameterDataGridView.Rows[rows].Cells[4].Value.ToString();
                 parameters.Add(parameter);
             }
@@ -214,14 +215,27 @@ namespace ConfigurationTool
 
         private void closeToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
-            if (
-                MessageBox.Show("Are you sure want to close the Application?", "Message",
-                MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes
-                )
+            var parametersFromUnmodifiedXmlFile = service.QueryXml("test90.xml");
+            var parameters = GetConfigParametersFromEditDataGridView();
+            if (IsXmlFileContentNeedsToBeSaved(parametersFromUnmodifiedXmlFile, parameters))
             {
-                Application.Exit();
+                if (MessageBox.Show("Do you want to save the changes to file?",
+                    "Message",
+                    MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                {
+                    service.SaveConfigurationParameters(parameters,"");
+                }
             }
+            Application.Exit();
+
+        }
+        private bool IsXmlFileContentNeedsToBeSaved(
+           List<ConfigurationParameter> parametersFromUnmodifiedXmlFile,
+           List<ConfigurationParameter> parameters)
+        {
+            var isParametersHaveBeenModified = parameters
+                                         .SequenceEqual(parametersFromUnmodifiedXmlFile);
+            return !isParametersHaveBeenModified;
         }
     }
 }
