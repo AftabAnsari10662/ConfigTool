@@ -7,18 +7,21 @@ using System.Windows.Forms;
 using ConfigurationTool.Models;
 using System.IO;
 using System.Xml.Linq;
+using ConfigurationTool.Service;
 
 namespace ConfigurationTool
 {
     public partial class ConfigTool : Form
     {
-        ConfigurationService service;
+        ConfigurationService _configurationService;
         bool hasXMLFileBeenOpened = false;
+        string _xmlFilePath;
         public ConfigTool()
         {
             InitializeComponent();
             HideDataGridView();
-            service = new ConfigurationService();
+            _configurationService = new ConfigurationService();
+            _xmlFilePath = string.Empty;
         }
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
@@ -27,16 +30,14 @@ namespace ConfigurationTool
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
                 hasXMLFileBeenOpened = true;
-                StreamReader sr = new StreamReader(openFileDialog.FileName);
-
-                var configurationParameters = service.QueryXml(openFileDialog.FileName);
+                var fileName = openFileDialog.FileName;
+                _xmlFilePath = fileName;
+                var configurationParameters = _configurationService.QueryXml(fileName);
 
                 foreach (var parameter in configurationParameters)
                 {
                     configurationParameterBindingSource.Add(parameter);
                 }
-
-                sr.Close();
 
                 ShowEditParameterDataGridView();
                 HideNewParameterDataGridView();
@@ -56,21 +57,21 @@ namespace ConfigurationTool
             if (hasXMLFileBeenOpened)
             {
                 var parameters = GetConfigParametersFromEditDataGridView();
-                service.SaveConfigurationParameters(parameters, "");
+                _configurationService.SaveConfigurationParameters(parameters, _xmlFilePath);
                 return;
             }
 
-            SaveFileDialog saveFileDialog1 = new SaveFileDialog();
-            saveFileDialog1.Filter = "Xml File|*.xml";
-            saveFileDialog1.Title = "Save an XML File";
-            saveFileDialog1.ShowDialog();
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Filter = "Xml File|*.xml";
+            saveFileDialog.Title = "Save an XML File";
+            saveFileDialog.ShowDialog();
              
-            if (saveFileDialog1.FileName != "")
+            if (saveFileDialog.FileName != "")
             {
                 var parameters = GetConfigParametersFromNewDataGridView();
-                service.SaveConfigurationParameters(parameters, saveFileDialog1.FileName);
-                FileStream fs = (FileStream)saveFileDialog1.OpenFile();
-                fs.Close();
+                var fileName = saveFileDialog.FileName;
+                _xmlFilePath = fileName;
+                _configurationService.SaveConfigurationParameters(parameters, fileName);
             }
 
         }
@@ -150,8 +151,9 @@ namespace ConfigurationTool
                 {
                     parameters = GetConfigParametersFromNewDataGridView();
                 }
-
-                service.SaveConfigurationParameters(parameters, "");
+                var fileName = saveFileDialog.FileName;
+                _xmlFilePath = fileName;
+                _configurationService.SaveConfigurationParameters(parameters, _xmlFilePath);
 
             }
         }
@@ -164,20 +166,27 @@ namespace ConfigurationTool
             {
 
                 var parameter = new ConfigurationParameter();
-                parameter.TagName = newParameterDataGridView.Rows[rows].Cells[0].Value == null ?
+                parameter.ApplicationName = newParameterDataGridView.Rows[rows].Cells[0].Value == null ?
                           "" : newParameterDataGridView.Rows[rows].Cells[0].Value.ToString();
 
-                parameter.Value = newParameterDataGridView.Rows[rows].Cells[1].Value == null ?
-                            "" : newParameterDataGridView.Rows[rows].Cells[1].Value.ToString();
+                parameter.TagName = newParameterDataGridView.Rows[rows].Cells[1].Value == null ?
+                          "" : newParameterDataGridView.Rows[rows].Cells[1].Value.ToString();
 
-                parameter.Description = newParameterDataGridView.Rows[rows].Cells[2].Value == null ?
-                              "" : newParameterDataGridView.Rows[rows].Cells[2].Value.ToString();
+                parameter.Value = newParameterDataGridView.Rows[rows].Cells[2].Value == null ?
+                            "" : newParameterDataGridView.Rows[rows].Cells[2].Value.ToString();
 
-                parameter.VersionAdded = newParameterDataGridView.Rows[rows].Cells[3].Value == null ?
-                                      "" : newParameterDataGridView.Rows[rows].Cells[3].Value.ToString();
+                parameter.SampleValue = newParameterDataGridView.Rows[rows].Cells[3].Value == null ?
+                            "" : newParameterDataGridView.Rows[rows].Cells[3].Value.ToString();
 
-                parameter.VersionDeprecated = newParameterDataGridView.Rows[rows].Cells[4].Value == null ?
-                                   "" : newParameterDataGridView.Rows[rows].Cells[4].Value.ToString();
+                parameter.Description = newParameterDataGridView.Rows[rows].Cells[4].Value == null ?
+                              "" : newParameterDataGridView.Rows[rows].Cells[4].Value.ToString();
+
+                parameter.VersionAdded = newParameterDataGridView.Rows[rows].Cells[5].Value == null ?
+                                      "" : newParameterDataGridView.Rows[rows].Cells[5].Value.ToString();
+
+                parameter.VersionDeprecated = newParameterDataGridView.Rows[rows].Cells[6].Value == null ?
+                                   "" : newParameterDataGridView.Rows[rows].Cells[6].Value.ToString();
+
                 parameters.Add(parameter);
             }
             return parameters;
@@ -215,7 +224,7 @@ namespace ConfigurationTool
 
         private void closeToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var parametersFromUnmodifiedXmlFile = service.QueryXml("test90.xml");
+            var parametersFromUnmodifiedXmlFile = _configurationService.QueryXml("test90.xml");
             var parameters = GetConfigParametersFromEditDataGridView();
             if (IsXmlFileContentNeedsToBeSaved(parametersFromUnmodifiedXmlFile, parameters))
             {
@@ -223,7 +232,7 @@ namespace ConfigurationTool
                     "Message",
                     MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                 {
-                    service.SaveConfigurationParameters(parameters,"");
+                    _configurationService.SaveConfigurationParameters(parameters,"");
                 }
             }
             Application.Exit();

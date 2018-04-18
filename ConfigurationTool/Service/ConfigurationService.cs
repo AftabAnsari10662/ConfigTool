@@ -1,10 +1,8 @@
-﻿using System;
+﻿using ConfigurationTool.Models;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Xml.Linq;
-namespace ConfigurationTool.Models
+namespace ConfigurationTool.Service
 {
     public class ConfigurationService
     {
@@ -42,7 +40,6 @@ namespace ConfigurationTool.Models
         public void SaveConfigurationParameters(
             List<ConfigurationParameter> configParameters, string path)
         {
-            var filePath = path.Replace(@"\\", @"\");
             var document = new XDocument();
             var parameters = new XElement("ConfigurationParameters");
             foreach (var parameter in configParameters)
@@ -51,10 +48,11 @@ namespace ConfigurationTool.Models
                 var applicationName = new XElement("ApplicationName", parameter.ApplicationName);
                 var tagName = new XElement("TagName", parameter.TagName);
                 var value = new XElement("Value", parameter.Value);
-                var sampleValue = new XElement("SampleValue", parameter.Value);
+                var sampleValue = new XElement("SampleValue", parameter.SampleValue);
                 var description = new XElement("Description", parameter.Description);
                 var versionAdded = new XElement("VersionAdded", parameter.VersionAdded);
                 var versionDeprecated = new XElement("VersionDeprecated", parameter.VersionDeprecated);
+
                 configurationParameter.Add(applicationName);
                 configurationParameter.Add(tagName);
                 configurationParameter.Add(value);
@@ -66,7 +64,7 @@ namespace ConfigurationTool.Models
 
             }
             document.Add(parameters);
-            document.Save("tagConfigration.xml");
+            document.Save(path);
         }
     }
 }

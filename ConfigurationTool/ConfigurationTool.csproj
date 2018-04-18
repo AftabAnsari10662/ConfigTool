@@ -53,7 +53,7 @@
       <DependentUpon>ConfigTool.cs</DependentUpon>
     </Compile>
     <Compile Include="Models\ConfigurationParameter.cs" />
-    <Compile Include="Models\ConfigurationService.cs" />
+    <Compile Include="Service\ConfigurationService.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="ConfigTool.resx">
