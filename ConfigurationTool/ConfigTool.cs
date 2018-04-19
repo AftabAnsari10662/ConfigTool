@@ -53,7 +53,7 @@ namespace ConfigurationTool
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (_xmlFilePath !=string.Empty)
+            if (_xmlFilePath != string.Empty)
             {
                 var parameters = GetConfigParametersFromNewDataGridView();
                 _configurationService.SaveConfigurationParameters(parameters, _xmlFilePath);
@@ -64,7 +64,7 @@ namespace ConfigurationTool
             saveFileDialog.Filter = "Xml File|*.xml";
             saveFileDialog.Title = "Save an XML File";
             saveFileDialog.ShowDialog();
-             
+
             if (saveFileDialog.FileName != "")
             {
                 var parameters = GetConfigParametersFromNewDataGridView();
@@ -88,7 +88,7 @@ namespace ConfigurationTool
             saveFileDialog.Title = "Save an XML File";
             saveFileDialog.ShowDialog();
 
-            List<ConfigurationParameter> parameters = new List<ConfigurationParameter>(); 
+            List<ConfigurationParameter> parameters = new List<ConfigurationParameter>();
             if (saveFileDialog.FileName != "")
             {
 
@@ -166,7 +166,7 @@ namespace ConfigurationTool
                     "Message",
                     MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                 {
-                    _configurationService.SaveConfigurationParameters(parameters,"");
+                    _configurationService.SaveConfigurationParameters(parameters, "");
                 }
             }
             Application.Exit();
@@ -179,7 +179,7 @@ namespace ConfigurationTool
             ActiveForm.Text = _xmlFilePath;
             var amConfigParameters = _configurationService
                 .QueryXml(_repositoryXmlFileName)
-                .Where(c=>c.ApplicationName == "AM")
+                .Where(c => c.ApplicationName == "AM")
                 .ToList();
 
             newConfigurationParameterBindingSource.Clear();
@@ -190,7 +190,7 @@ namespace ConfigurationTool
 
             newParameterDataGridView.DataSource = newConfigurationParameterBindingSource;
             newParameterDataGridView.Show();
-    }
+        }
 
         private void pMToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -209,6 +209,43 @@ namespace ConfigurationTool
 
             newParameterDataGridView.DataSource = newConfigurationParameterBindingSource;
             newParameterDataGridView.Show();
+        }
+
+        private void importToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void printToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            //Resize DataGridView to full height.
+            int height = newParameterDataGridView.Height;
+            newParameterDataGridView.Height = newParameterDataGridView.RowCount * newParameterDataGridView.RowTemplate.Height;
+
+            //Create a Bitmap and draw the DataGridView on it.
+            Bitmap bitmap = new Bitmap(this.newParameterDataGridView.Width,
+                this.newParameterDataGridView.Height);
+
+            newParameterDataGridView.DrawToBitmap(bitmap,
+                new Rectangle(
+                    0,
+                0,
+                this.newParameterDataGridView.Width,
+                this.newParameterDataGridView.Height
+                ));
+
+            //Resize DataGridView back to original height.
+            newParameterDataGridView.Height = height;
+
+            //Show the Print Preview Dialog.
+            printPreviewDialog1.Document = printDocument1;
+            printPreviewDialog1.PrintPreviewControl.Zoom = 1;
+            printPreviewDialog1.ShowDialog();
+        }
+
+        private void printPreviewDialog1_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }
