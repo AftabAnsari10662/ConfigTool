@@ -28,10 +28,11 @@ namespace ConfigurationTool.Service
         {
             return new ConfigurationParameter
             {
-                TagName = x.Element("TagName").Value,
-                Description = x.Element("Description").Value,
+                ApplicationName = x.Element("ApplicationName").Value,
+                TagName = x.Element("TagName").Value,                
                 Value = x.Element("Value").Value,
                 SampleValue = x.Element("SampleValue").Value,
+                Description = x.Element("Description").Value,
                 VersionAdded = x.Element("VersionAdded").Value,
                 VersionDeprecated = x.Element("VersionDeprecated").Value,
             };
@@ -65,6 +66,15 @@ namespace ConfigurationTool.Service
             }
             document.Add(parameters);
             document.Save(path);
+        }
+
+        public bool IsXmlFileContentNeedsToBeSaved(
+          List<ConfigurationParameter> parametersFromUnmodifiedXmlFile,
+          List<ConfigurationParameter> parameters)
+        {
+            var isParametersHaveBeenModified = parameters
+                                         .SequenceEqual(parametersFromUnmodifiedXmlFile);
+            return !isParametersHaveBeenModified;
         }
     }
 }

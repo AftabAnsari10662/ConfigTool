@@ -29,15 +29,14 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.aMToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.pMToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -49,18 +48,8 @@
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
-            this.editParameterGridView = new System.Windows.Forms.DataGridView();
-            this.TagName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.SampleValue = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.VersionAdded = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.VersionDeprecated = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Delete = new System.Windows.Forms.DataGridViewButtonColumn();
-            this.newParameterDataGridView = new System.Windows.Forms.DataGridView();
             this.newConfigurationParameterBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.valueDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.descriptionDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.configurationParameterBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.ApplicationName = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.newParameterDataGridView = new System.Windows.Forms.DataGridView();
             this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.valueDataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -69,10 +58,8 @@
             this.dataGridViewTextBoxColumn4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.DeleteRow = new System.Windows.Forms.DataGridViewButtonColumn();
             this.menuStrip1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.editParameterGridView)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.newParameterDataGridView)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.newConfigurationParameterBindingSource)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.configurationParameterBindingSource)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.newParameterDataGridView)).BeginInit();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -103,10 +90,27 @@
             // 
             // newToolStripMenuItem
             // 
+            this.newToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.aMToolStripMenuItem,
+            this.pMToolStripMenuItem});
             this.newToolStripMenuItem.Name = "newToolStripMenuItem";
             this.newToolStripMenuItem.Size = new System.Drawing.Size(158, 30);
             this.newToolStripMenuItem.Text = "New";
             this.newToolStripMenuItem.Click += new System.EventHandler(this.newToolStripMenuItem_Click);
+            // 
+            // aMToolStripMenuItem
+            // 
+            this.aMToolStripMenuItem.Name = "aMToolStripMenuItem";
+            this.aMToolStripMenuItem.Size = new System.Drawing.Size(124, 30);
+            this.aMToolStripMenuItem.Text = "AM";
+            this.aMToolStripMenuItem.Click += new System.EventHandler(this.aMToolStripMenuItem_Click);
+            // 
+            // pMToolStripMenuItem
+            // 
+            this.pMToolStripMenuItem.Name = "pMToolStripMenuItem";
+            this.pMToolStripMenuItem.Size = new System.Drawing.Size(124, 30);
+            this.pMToolStripMenuItem.Text = "PM";
+            this.pMToolStripMenuItem.Click += new System.EventHandler(this.pMToolStripMenuItem_Click);
             // 
             // openToolStripMenuItem
             // 
@@ -173,81 +177,9 @@
             // 
             this.openFileDialog.FileName = "openFileDialog";
             // 
-            // editParameterGridView
+            // newConfigurationParameterBindingSource
             // 
-            this.editParameterGridView.AutoGenerateColumns = false;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.editParameterGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
-            this.editParameterGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.editParameterGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.TagName,
-            this.valueDataGridViewTextBoxColumn,
-            this.descriptionDataGridViewTextBoxColumn,
-            this.SampleValue,
-            this.VersionAdded,
-            this.VersionDeprecated,
-            this.Delete});
-            this.editParameterGridView.DataSource = this.configurationParameterBindingSource;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.editParameterGridView.DefaultCellStyle = dataGridViewCellStyle2;
-            this.editParameterGridView.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.editParameterGridView.Location = new System.Drawing.Point(0, 33);
-            this.editParameterGridView.Name = "editParameterGridView";
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.editParameterGridView.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
-            this.editParameterGridView.RowTemplate.Height = 28;
-            this.editParameterGridView.Size = new System.Drawing.Size(1070, 570);
-            this.editParameterGridView.TabIndex = 1;
-            this.editParameterGridView.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.editParameterGridView_CellContentClick);
-            // 
-            // TagName
-            // 
-            this.TagName.DataPropertyName = "TagName";
-            this.TagName.HeaderText = "TagName";
-            this.TagName.Name = "TagName";
-            // 
-            // SampleValue
-            // 
-            this.SampleValue.DataPropertyName = "SampleValue";
-            this.SampleValue.HeaderText = "SampleValue";
-            this.SampleValue.Name = "SampleValue";
-            // 
-            // VersionAdded
-            // 
-            this.VersionAdded.DataPropertyName = "VersionAdded";
-            this.VersionAdded.HeaderText = "VersionAdded";
-            this.VersionAdded.Name = "VersionAdded";
-            // 
-            // VersionDeprecated
-            // 
-            this.VersionDeprecated.DataPropertyName = "VersionDeprecated";
-            this.VersionDeprecated.HeaderText = "VersionDeprecated";
-            this.VersionDeprecated.Name = "VersionDeprecated";
-            // 
-            // Delete
-            // 
-            this.Delete.HeaderText = "Delete";
-            this.Delete.Name = "Delete";
-            this.Delete.Text = "Delete";
-            this.Delete.UseColumnTextForButtonValue = true;
+            this.newConfigurationParameterBindingSource.DataSource = typeof(ConfigurationTool.Models.ConfigurationParameter);
             // 
             // newParameterDataGridView
             // 
@@ -262,7 +194,6 @@
             this.newParameterDataGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle4;
             this.newParameterDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.newParameterDataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.ApplicationName,
             this.dataGridViewTextBoxColumn1,
             this.valueDataGridViewTextBoxColumn1,
             this.dataGridViewTextBoxColumn2,
@@ -292,40 +223,7 @@
             this.newParameterDataGridView.RowHeadersDefaultCellStyle = dataGridViewCellStyle6;
             this.newParameterDataGridView.RowTemplate.Height = 28;
             this.newParameterDataGridView.Size = new System.Drawing.Size(1070, 570);
-            this.newParameterDataGridView.TabIndex = 8;
-            // 
-            // newConfigurationParameterBindingSource
-            // 
-            this.newConfigurationParameterBindingSource.DataSource = typeof(ConfigurationTool.Models.ConfigurationParameter);
-            // 
-            // valueDataGridViewTextBoxColumn
-            // 
-            this.valueDataGridViewTextBoxColumn.DataPropertyName = "Value";
-            this.valueDataGridViewTextBoxColumn.HeaderText = "Value";
-            this.valueDataGridViewTextBoxColumn.Name = "valueDataGridViewTextBoxColumn";
-            this.valueDataGridViewTextBoxColumn.Width = 300;
-            // 
-            // descriptionDataGridViewTextBoxColumn
-            // 
-            this.descriptionDataGridViewTextBoxColumn.DataPropertyName = "Description";
-            this.descriptionDataGridViewTextBoxColumn.HeaderText = "Description";
-            this.descriptionDataGridViewTextBoxColumn.Name = "descriptionDataGridViewTextBoxColumn";
-            this.descriptionDataGridViewTextBoxColumn.Width = 300;
-            // 
-            // configurationParameterBindingSource
-            // 
-            this.configurationParameterBindingSource.DataSource = typeof(ConfigurationTool.Models.ConfigurationParameter);
-            // 
-            // ApplicationName
-            // 
-            this.ApplicationName.DataPropertyName = "ApplicationName";
-            this.ApplicationName.HeaderText = "ApplicationName";
-            this.ApplicationName.Items.AddRange(new object[] {
-            "AM",
-            "PM",
-            "AMPM"});
-            this.ApplicationName.Name = "ApplicationName";
-            this.ApplicationName.Width = 60;
+            this.newParameterDataGridView.TabIndex = 9;
             // 
             // dataGridViewTextBoxColumn1
             // 
@@ -381,7 +279,6 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1070, 603);
             this.Controls.Add(this.newParameterDataGridView);
-            this.Controls.Add(this.editParameterGridView);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "ConfigTool";
@@ -389,10 +286,8 @@
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.editParameterGridView)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.newParameterDataGridView)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.newConfigurationParameterBindingSource)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.configurationParameterBindingSource)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.newParameterDataGridView)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -414,8 +309,6 @@
         private System.Windows.Forms.SaveFileDialog saveFileDialog;
         private System.Windows.Forms.ToolStripMenuItem runConfigurationTaggingToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem runTaggingValidationToolStripMenuItem;
-        private System.Windows.Forms.DataGridView editParameterGridView;
-        private System.Windows.Forms.BindingSource configurationParameterBindingSource;
         private System.Windows.Forms.BindingSource newConfigurationParameterBindingSource;
         private System.Windows.Forms.DataGridViewTextBoxColumn nameDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn nameDataGridViewTextBoxColumn1;
@@ -423,15 +316,9 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn decrementVersionDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn includeVersionDataGridViewTextBoxColumn1;
         private System.Windows.Forms.DataGridViewTextBoxColumn decrementVersionDataGridViewTextBoxColumn1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn TagName;
-        private System.Windows.Forms.DataGridViewTextBoxColumn valueDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn descriptionDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn SampleValue;
-        private System.Windows.Forms.DataGridViewTextBoxColumn VersionAdded;
-        private System.Windows.Forms.DataGridViewTextBoxColumn VersionDeprecated;
-        private System.Windows.Forms.DataGridViewButtonColumn Delete;
+        private System.Windows.Forms.ToolStripMenuItem aMToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem pMToolStripMenuItem;
         private System.Windows.Forms.DataGridView newParameterDataGridView;
-        private System.Windows.Forms.DataGridViewComboBoxColumn ApplicationName;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
         private System.Windows.Forms.DataGridViewTextBoxColumn valueDataGridViewTextBoxColumn1;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
