@@ -230,6 +230,7 @@
             this.newParameterDataGridView.RowTemplate.Height = 28;
             this.newParameterDataGridView.Size = new System.Drawing.Size(1070, 570);
             this.newParameterDataGridView.TabIndex = 9;
+            this.newParameterDataGridView.CellContentClick += newParameterDataGridView_CellContentClick;
             // 
             // dataGridViewTextBoxColumn1
             // 
@@ -334,12 +335,6 @@
         private System.Windows.Forms.ToolStripMenuItem runConfigurationTaggingToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem runTaggingValidationToolStripMenuItem;
         private System.Windows.Forms.BindingSource newConfigurationParameterBindingSource;
-        private System.Windows.Forms.DataGridViewTextBoxColumn nameDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn nameDataGridViewTextBoxColumn1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn includeVersionDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn decrementVersionDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn includeVersionDataGridViewTextBoxColumn1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn decrementVersionDataGridViewTextBoxColumn1;
         private System.Windows.Forms.ToolStripMenuItem aMToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem pMToolStripMenuItem;
         private System.Windows.Forms.DataGridView newParameterDataGridView;

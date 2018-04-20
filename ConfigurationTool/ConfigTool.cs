@@ -189,7 +189,6 @@ namespace ConfigurationTool
             }
 
             newParameterDataGridView.DataSource = newConfigurationParameterBindingSource;
-            newParameterDataGridView.Show();
         }
 
         private void pMToolStripMenuItem_Click(object sender, EventArgs e)
@@ -221,13 +220,14 @@ namespace ConfigurationTool
                 var latestVersionOfXmlFileName = _repositoryXmlFileName;
                 var latestTaggedConfigurations = _configurationService.QueryXml(latestVersionOfXmlFileName);
 
-                List<ConfigurationParameter> latestTaggedConfigurationWithValues = _configurationService
-                     .ReplaceValuesFromOldTaggedConfigurationIntoLatestTaggedConfiguration(
-                             oldTaggedConfigurations,
-                             latestTaggedConfigurations
-                     );
+                var latestTaggedConfigurationWithValues =_configurationService
+                                                                 .ReplaceValuesFromOldTaggedConfigurationIntoLatestTaggedConfiguration(
+                                                                         oldTaggedConfigurations,
+                                                                         latestTaggedConfigurations
+                                                                 );
 
-                newConfigurationParameterBindingSource.Clear();  
+                newConfigurationParameterBindingSource.Clear();
+
                 foreach (var taggedConfig in latestTaggedConfigurationWithValues)
                 {
                     newConfigurationParameterBindingSource.Add(taggedConfig);
