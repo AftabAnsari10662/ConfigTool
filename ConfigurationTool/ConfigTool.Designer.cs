@@ -39,6 +39,7 @@
             this.aMToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pMToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.importToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.closeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -49,8 +50,8 @@
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
-            this.newConfigurationParameterBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.newParameterDataGridView = new System.Windows.Forms.DataGridView();
+            this.taggedParameterBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.taggedParameterDataGridView = new System.Windows.Forms.DataGridView();
             this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.valueDataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -58,12 +59,11 @@
             this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.DeleteRow = new System.Windows.Forms.DataGridViewButtonColumn();
-            this.importToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.printPreviewDialog1 = new System.Windows.Forms.PrintPreviewDialog();
             this.printDocument1 = new System.Drawing.Printing.PrintDocument();
             this.menuStrip1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.newConfigurationParameterBindingSource)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.newParameterDataGridView)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.taggedParameterBindingSource)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.taggedParameterDataGridView)).BeginInit();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -99,7 +99,7 @@
             this.aMToolStripMenuItem,
             this.pMToolStripMenuItem});
             this.newToolStripMenuItem.Name = "newToolStripMenuItem";
-            this.newToolStripMenuItem.Size = new System.Drawing.Size(210, 30);
+            this.newToolStripMenuItem.Size = new System.Drawing.Size(158, 30);
             this.newToolStripMenuItem.Text = "New";
             // 
             // aMToolStripMenuItem
@@ -119,28 +119,35 @@
             // openToolStripMenuItem
             // 
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(210, 30);
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(158, 30);
             this.openToolStripMenuItem.Text = "Open";
             this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
+            // 
+            // importToolStripMenuItem
+            // 
+            this.importToolStripMenuItem.Name = "importToolStripMenuItem";
+            this.importToolStripMenuItem.Size = new System.Drawing.Size(158, 30);
+            this.importToolStripMenuItem.Text = "Import";
+            this.importToolStripMenuItem.Click += new System.EventHandler(this.importToolStripMenuItem_Click);
             // 
             // saveToolStripMenuItem
             // 
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(210, 30);
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(158, 30);
             this.saveToolStripMenuItem.Text = "Save";
             this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
             // 
             // saveAsToolStripMenuItem
             // 
             this.saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
-            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(210, 30);
+            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(158, 30);
             this.saveAsToolStripMenuItem.Text = "Save As";
             this.saveAsToolStripMenuItem.Click += new System.EventHandler(this.saveAsToolStripMenuItem_Click);
             // 
             // closeToolStripMenuItem
             // 
             this.closeToolStripMenuItem.Name = "closeToolStripMenuItem";
-            this.closeToolStripMenuItem.Size = new System.Drawing.Size(210, 30);
+            this.closeToolStripMenuItem.Size = new System.Drawing.Size(158, 30);
             this.closeToolStripMenuItem.Text = "Close";
             this.closeToolStripMenuItem.Click += new System.EventHandler(this.closeToolStripMenuItem_Click);
             // 
@@ -182,13 +189,13 @@
             // 
             this.openFileDialog.FileName = "openFileDialog";
             // 
-            // newConfigurationParameterBindingSource
+            // taggedParameterBindingSource
             // 
-            this.newConfigurationParameterBindingSource.DataSource = typeof(ConfigurationTool.Models.ConfigurationParameter);
+            this.taggedParameterBindingSource.DataSource = typeof(ConfigurationTool.Models.ConfigurationParameter);
             // 
-            // newParameterDataGridView
+            // taggedParameterDataGridView
             // 
-            this.newParameterDataGridView.AutoGenerateColumns = false;
+            this.taggedParameterDataGridView.AutoGenerateColumns = false;
             dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
             dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -196,9 +203,9 @@
             dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
             dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.newParameterDataGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
-            this.newParameterDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.newParameterDataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.taggedParameterDataGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            this.taggedParameterDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.taggedParameterDataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.dataGridViewTextBoxColumn1,
             this.valueDataGridViewTextBoxColumn1,
             this.dataGridViewTextBoxColumn2,
@@ -206,7 +213,7 @@
             this.dataGridViewTextBoxColumn3,
             this.dataGridViewTextBoxColumn4,
             this.DeleteRow});
-            this.newParameterDataGridView.DataSource = this.newConfigurationParameterBindingSource;
+            this.taggedParameterDataGridView.DataSource = this.taggedParameterBindingSource;
             dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
             dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -214,10 +221,10 @@
             dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
             dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.newParameterDataGridView.DefaultCellStyle = dataGridViewCellStyle2;
-            this.newParameterDataGridView.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.newParameterDataGridView.Location = new System.Drawing.Point(0, 33);
-            this.newParameterDataGridView.Name = "newParameterDataGridView";
+            this.taggedParameterDataGridView.DefaultCellStyle = dataGridViewCellStyle2;
+            this.taggedParameterDataGridView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.taggedParameterDataGridView.Location = new System.Drawing.Point(0, 33);
+            this.taggedParameterDataGridView.Name = "taggedParameterDataGridView";
             dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
             dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -225,11 +232,11 @@
             dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
             dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.newParameterDataGridView.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
-            this.newParameterDataGridView.RowTemplate.Height = 28;
-            this.newParameterDataGridView.Size = new System.Drawing.Size(1070, 570);
-            this.newParameterDataGridView.TabIndex = 9;
-            this.newParameterDataGridView.CellContentClick += newParameterDataGridView_CellContentClick;
+            this.taggedParameterDataGridView.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            this.taggedParameterDataGridView.RowTemplate.Height = 28;
+            this.taggedParameterDataGridView.Size = new System.Drawing.Size(1070, 570);
+            this.taggedParameterDataGridView.TabIndex = 9;
+            this.taggedParameterDataGridView.CellContentClick += taggedParameterDataGridView_CellContentClick;
             // 
             // dataGridViewTextBoxColumn1
             // 
@@ -279,13 +286,6 @@
             this.DeleteRow.ToolTipText = "Delete";
             this.DeleteRow.UseColumnTextForButtonValue = true;
             // 
-            // importToolStripMenuItem
-            // 
-            this.importToolStripMenuItem.Name = "importToolStripMenuItem";
-            this.importToolStripMenuItem.Size = new System.Drawing.Size(210, 30);
-            this.importToolStripMenuItem.Text = "Import";
-            this.importToolStripMenuItem.Click += new System.EventHandler(this.importToolStripMenuItem_Click);
-            // 
             // printPreviewDialog1
             // 
             this.printPreviewDialog1.AutoScrollMargin = new System.Drawing.Size(0, 0);
@@ -302,7 +302,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1070, 603);
-            this.Controls.Add(this.newParameterDataGridView);
+            this.Controls.Add(this.taggedParameterDataGridView);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "ConfigTool";
@@ -310,8 +310,8 @@
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.newConfigurationParameterBindingSource)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.newParameterDataGridView)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.taggedParameterBindingSource)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.taggedParameterDataGridView)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -333,10 +333,10 @@
         private System.Windows.Forms.SaveFileDialog saveFileDialog;
         private System.Windows.Forms.ToolStripMenuItem runConfigurationTaggingToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem runTaggingValidationToolStripMenuItem;
-        private System.Windows.Forms.BindingSource newConfigurationParameterBindingSource;
+        private System.Windows.Forms.BindingSource taggedParameterBindingSource;
         private System.Windows.Forms.ToolStripMenuItem aMToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem pMToolStripMenuItem;
-        private System.Windows.Forms.DataGridView newParameterDataGridView;
+        private System.Windows.Forms.DataGridView taggedParameterDataGridView;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
         private System.Windows.Forms.DataGridViewTextBoxColumn valueDataGridViewTextBoxColumn1;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;

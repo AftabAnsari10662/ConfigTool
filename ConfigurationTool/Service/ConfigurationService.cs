@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
-using System;
 
 namespace ConfigurationTool.Service
 {
@@ -74,9 +73,10 @@ namespace ConfigurationTool.Service
           List<ConfigurationParameter> parametersFromUnmodifiedXmlFile,
           List<ConfigurationParameter> parameters)
         {
-            var isParametersHaveBeenModified = parameters
-                                         .SequenceEqual(parametersFromUnmodifiedXmlFile);
-            return !isParametersHaveBeenModified;
+            var isTaggedParametersHaveBeenModified = parameters
+                                                             .SequenceEqual(parametersFromUnmodifiedXmlFile);
+
+            return !isTaggedParametersHaveBeenModified;
         }
 
         public List<ConfigurationParameter> ReplaceValuesFromOldTaggedConfigurationIntoLatestTaggedConfiguration(

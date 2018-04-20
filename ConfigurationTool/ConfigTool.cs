@@ -5,8 +5,6 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using ConfigurationTool.Models;
-using System.IO;
-using System.Xml.Linq;
 using ConfigurationTool.Service;
 using System.Configuration;
 
@@ -25,11 +23,12 @@ namespace ConfigurationTool
             _xmlFilePath = string.Empty;
             _applicationName = string.Empty;
             _repositoryXmlFileName = ConfigurationManager.AppSettings["xmlRepoistoryFilePath"];
+            taggedParameterDataGridView.Visible = false;
         }
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            newConfigurationParameterBindingSource.Clear();
+            taggedParameterBindingSource.Clear();
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
                 var fileName = openFileDialog.FileName;
@@ -39,10 +38,10 @@ namespace ConfigurationTool
 
                 foreach (var parameter in configurationParameters)
                 {
-                    newConfigurationParameterBindingSource.Add(parameter);
+                    taggedParameterBindingSource.Add(parameter);
                 }
 
-                newParameterDataGridView.DataSource = newConfigurationParameterBindingSource;
+                taggedParameterDataGridView.DataSource = taggedParameterBindingSource;
             }
 
         }
@@ -97,38 +96,38 @@ namespace ConfigurationTool
         {
             var parameters = new List<ConfigurationParameter>();
 
-            for (int rows = 0; rows < newParameterDataGridView.Rows.Count - 1; rows++)
+            for (int rows = 0; rows < taggedParameterDataGridView.Rows.Count - 1; rows++)
             {
 
                 var parameter = new ConfigurationParameter();
                 parameter.ApplicationName = _applicationName;
 
-                parameter.TagName = newParameterDataGridView.Rows[rows].Cells[0].Value == null ?
-                          "" : newParameterDataGridView.Rows[rows].Cells[0].Value.ToString();
+                parameter.TagName = taggedParameterDataGridView.Rows[rows].Cells[0].Value == null ?
+                          "" : taggedParameterDataGridView.Rows[rows].Cells[0].Value.ToString();
 
-                parameter.Value = newParameterDataGridView.Rows[rows].Cells[1].Value == null ?
-                            "" : newParameterDataGridView.Rows[rows].Cells[1].Value.ToString();
+                parameter.Value = taggedParameterDataGridView.Rows[rows].Cells[1].Value == null ?
+                            "" : taggedParameterDataGridView.Rows[rows].Cells[1].Value.ToString();
 
-                parameter.SampleValue = newParameterDataGridView.Rows[rows].Cells[2].Value == null ?
-                            "" : newParameterDataGridView.Rows[rows].Cells[2].Value.ToString();
+                parameter.SampleValue = taggedParameterDataGridView.Rows[rows].Cells[2].Value == null ?
+                            "" : taggedParameterDataGridView.Rows[rows].Cells[2].Value.ToString();
 
-                parameter.Description = newParameterDataGridView.Rows[rows].Cells[3].Value == null ?
-                              "" : newParameterDataGridView.Rows[rows].Cells[3].Value.ToString();
+                parameter.Description = taggedParameterDataGridView.Rows[rows].Cells[3].Value == null ?
+                              "" : taggedParameterDataGridView.Rows[rows].Cells[3].Value.ToString();
 
-                parameter.VersionAdded = newParameterDataGridView.Rows[rows].Cells[4].Value == null ?
-                                      "" : newParameterDataGridView.Rows[rows].Cells[4].Value.ToString();
+                parameter.VersionAdded = taggedParameterDataGridView.Rows[rows].Cells[4].Value == null ?
+                                      "" : taggedParameterDataGridView.Rows[rows].Cells[4].Value.ToString();
 
-                parameter.VersionDeprecated = newParameterDataGridView.Rows[rows].Cells[5].Value == null ?
-                                   "" : newParameterDataGridView.Rows[rows].Cells[5].Value.ToString();
+                parameter.VersionDeprecated = taggedParameterDataGridView.Rows[rows].Cells[5].Value == null ?
+                                   "" : taggedParameterDataGridView.Rows[rows].Cells[5].Value.ToString();
 
                 parameters.Add(parameter);
             }
             return parameters;
         }
 
-        private void newParameterDataGridView_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        private void taggedParameterDataGridView_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (newParameterDataGridView.Columns[e.ColumnIndex].Name == "DeleteRow")
+            if (taggedParameterDataGridView.Columns[e.ColumnIndex].Name == "DeleteRow")
             {
 
                 if (
@@ -136,7 +135,7 @@ namespace ConfigurationTool
                     MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes
                     )
                 {
-                    newConfigurationParameterBindingSource.RemoveCurrent();
+                    taggedParameterBindingSource.RemoveCurrent();
                 }
             }
         }
@@ -161,19 +160,19 @@ namespace ConfigurationTool
         private void aMToolStripMenuItem_Click(object sender, EventArgs e)
         {
             _xmlFilePath = string.Empty;
-            ActiveForm.Text = _xmlFilePath;
+            // ActiveForm.Text = _xmlFilePath;
             var amConfigParameters = _configurationService
                                         .QueryXml(_repositoryXmlFileName)
                                         .Where(c => c.ApplicationName == "AM")
                                         .ToList();
 
-            newConfigurationParameterBindingSource.Clear();
+            taggedParameterBindingSource.Clear();
             foreach (var parameter in amConfigParameters)
             {
-                newConfigurationParameterBindingSource.Add(parameter);
+                taggedParameterBindingSource.Add(parameter);
             }
 
-            newParameterDataGridView.DataSource = newConfigurationParameterBindingSource;
+            taggedParameterDataGridView.DataSource = taggedParameterBindingSource;
         }
 
         private void pMToolStripMenuItem_Click(object sender, EventArgs e)
@@ -185,15 +184,15 @@ namespace ConfigurationTool
                                                 .Where(c => c.ApplicationName == "PM")
                                                 .ToList();
 
-
+            taggedParameterBindingSource.Clear();
             foreach (var parameter in pmConfigParameters)
             {
-                newConfigurationParameterBindingSource.Add(parameter);
+                taggedParameterBindingSource.Add(parameter);
             }
 
-            newConfigurationParameterBindingSource.Clear();
-            newParameterDataGridView.DataSource = newConfigurationParameterBindingSource;
-            newParameterDataGridView.Show();
+
+            taggedParameterDataGridView.DataSource = taggedParameterBindingSource;
+            taggedParameterDataGridView.Show();
         }
 
         private void importToolStripMenuItem_Click(object sender, EventArgs e)
@@ -212,37 +211,37 @@ namespace ConfigurationTool
                                                                          latestTaggedConfigurations
                                                                  );
 
-                newConfigurationParameterBindingSource.Clear();
+                taggedParameterBindingSource.Clear();
 
                 foreach (var taggedConfig in latestTaggedConfigurationWithValues)
                 {
-                    newConfigurationParameterBindingSource.Add(taggedConfig);
+                    taggedParameterBindingSource.Add(taggedConfig);
                 }
 
-                newParameterDataGridView.DataSource = newConfigurationParameterBindingSource;
+                taggedParameterDataGridView.DataSource = taggedParameterBindingSource;
             }
         }
 
         private void printToolStripMenuItem_Click(object sender, EventArgs e)
         {
             //Resize DataGridView to full height.
-            int height = newParameterDataGridView.Height;
-            newParameterDataGridView.Height = newParameterDataGridView.RowCount * newParameterDataGridView.RowTemplate.Height;
+            int height = taggedParameterDataGridView.Height;
+            taggedParameterDataGridView.Height = taggedParameterDataGridView.RowCount * taggedParameterDataGridView.RowTemplate.Height;
 
             //Create a Bitmap and draw the DataGridView on it.
-            Bitmap bitmap = new Bitmap(this.newParameterDataGridView.Width,
-                this.newParameterDataGridView.Height);
+            Bitmap bitmap = new Bitmap(this.taggedParameterDataGridView.Width,
+                this.taggedParameterDataGridView.Height);
 
-            newParameterDataGridView.DrawToBitmap(bitmap,
+            taggedParameterDataGridView.DrawToBitmap(bitmap,
                 new Rectangle(
                     0,
                 0,
-                this.newParameterDataGridView.Width,
-                this.newParameterDataGridView.Height
+                this.taggedParameterDataGridView.Width,
+                this.taggedParameterDataGridView.Height
                 ));
 
             //Resize DataGridView back to original height.
-            newParameterDataGridView.Height = height;
+            taggedParameterDataGridView.Height = height;
 
             //Show the Print Preview Dialog.
             printPreviewDialog1.Document = printDocument1;
