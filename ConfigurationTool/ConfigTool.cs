@@ -213,7 +213,27 @@ namespace ConfigurationTool
 
         private void importToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                var oldVersionOfXmlFileName = openFileDialog.FileName;
+                var oldTaggedConfigurations = _configurationService.QueryXml(oldVersionOfXmlFileName);
 
+                var latestVersionOfXmlFileName = _repositoryXmlFileName;
+                var latestTaggedConfigurations = _configurationService.QueryXml(latestVersionOfXmlFileName);
+
+                List<ConfigurationParameter> latestTaggedConfigurationWithValues = _configurationService
+                     .ReplaceValuesFromOldTaggedConfigurationIntoLatestTaggedConfiguration(
+                             oldTaggedConfigurations,
+                             latestTaggedConfigurations
+                     );
+
+                foreach (var taggedConfig in latestTaggedConfigurationWithValues)
+                {
+                    newConfigurationParameterBindingSource.Add(taggedConfig);
+                }
+
+                newParameterDataGridView.DataSource = newConfigurationParameterBindingSource;
+            }
         }
 
         private void printToolStripMenuItem_Click(object sender, EventArgs e)

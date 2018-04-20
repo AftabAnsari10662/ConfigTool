@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
+using System;
+
 namespace ConfigurationTool.Service
 {
     public class ConfigurationService
@@ -75,6 +77,27 @@ namespace ConfigurationTool.Service
             var isParametersHaveBeenModified = parameters
                                          .SequenceEqual(parametersFromUnmodifiedXmlFile);
             return !isParametersHaveBeenModified;
+        }
+
+        public List<ConfigurationParameter> ReplaceValuesFromOldTaggedConfigurationIntoLatestTaggedConfiguration(
+                List<ConfigurationParameter> oldTaggedConfigurations,
+                List<ConfigurationParameter> latestTaggedConfigurations
+            )
+        {
+
+            var taggedConfigValues = new List<ConfigurationParameter>();
+
+            foreach (var tagConfig in latestTaggedConfigurations)
+            {
+                var oldTagConfig = oldTaggedConfigurations.FirstOrDefault(o => o.TagName == tagConfig.TagName);
+                if (oldTagConfig!=null)
+                {
+                    tagConfig.Value = oldTagConfig.Value;
+                }
+
+            }
+
+            return taggedConfigValues;
         }
     }
 }
