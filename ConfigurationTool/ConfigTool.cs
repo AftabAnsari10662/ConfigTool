@@ -227,6 +227,7 @@ namespace ConfigurationTool
                              latestTaggedConfigurations
                      );
 
+                newConfigurationParameterBindingSource.Clear();  
                 foreach (var taggedConfig in latestTaggedConfigurationWithValues)
                 {
                     newConfigurationParameterBindingSource.Add(taggedConfig);

@@ -85,8 +85,6 @@ namespace ConfigurationTool.Service
             )
         {
 
-            var taggedConfigValues = new List<ConfigurationParameter>();
-
             foreach (var tagConfig in latestTaggedConfigurations)
             {
                 var oldTagConfig = oldTaggedConfigurations.FirstOrDefault(o => o.TagName == tagConfig.TagName);
@@ -97,7 +95,7 @@ namespace ConfigurationTool.Service
 
             }
 
-            return taggedConfigValues;
+            return latestTaggedConfigurations;
         }
     }
 }
