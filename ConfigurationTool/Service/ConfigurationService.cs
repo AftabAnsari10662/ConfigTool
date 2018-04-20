@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
+using System;
 
 namespace ConfigurationTool.Service
 {
@@ -30,7 +31,7 @@ namespace ConfigurationTool.Service
             return new ConfigurationParameter
             {
                 ApplicationName = x.Element("ApplicationName").Value,
-                TagName = x.Element("TagName").Value,                
+                TagName = x.Element("TagName").Value,
                 Value = x.Element("Value").Value,
                 SampleValue = x.Element("SampleValue").Value,
                 Description = x.Element("Description").Value,
@@ -88,7 +89,7 @@ namespace ConfigurationTool.Service
             foreach (var tagConfig in latestTaggedConfigurations)
             {
                 var oldTagConfig = oldTaggedConfigurations.FirstOrDefault(o => o.TagName == tagConfig.TagName);
-                if (oldTagConfig!=null)
+                if (oldTagConfig != null)
                 {
                     tagConfig.Value = oldTagConfig.Value;
                 }
@@ -96,6 +97,24 @@ namespace ConfigurationTool.Service
             }
 
             return latestTaggedConfigurations;
+        }
+
+        public List<ConfigurationParameter> getTaggedPrametersForPerformanceManager(
+            string _repositoryXmlFilePath)
+        {
+            return QueryXml(_repositoryXmlFilePath)
+            .Where(c => c.ApplicationName == "PM")
+            .ToList();
+
+        }
+
+        public List<ConfigurationParameter> getTaggedPrametersForActionManager(
+            string _repositoryXmlFilePath)
+        {
+            return QueryXml(_repositoryXmlFilePath)
+            .Where(c => c.ApplicationName == "AM")
+            .ToList();
+
         }
     }
 }

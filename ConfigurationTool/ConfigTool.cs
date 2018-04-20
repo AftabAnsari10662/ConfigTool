@@ -13,35 +13,29 @@ namespace ConfigurationTool
     public partial class ConfigTool : Form
     {
         ConfigurationService _configurationService;
-        string _xmlFilePath;
+        string _currentXmlFilePath;
         string _applicationName;
-        string _repositoryXmlFileName;
+        string _repositoryXmlFilePath;
         public ConfigTool()
         {
             InitializeComponent();
             _configurationService = new ConfigurationService();
-            _xmlFilePath = string.Empty;
+            _currentXmlFilePath = string.Empty;
             _applicationName = string.Empty;
-            _repositoryXmlFileName = ConfigurationManager.AppSettings["xmlRepoistoryFilePath"];
+            _repositoryXmlFilePath = ConfigurationManager.AppSettings["xmlRepoistoryFilePath"];
             taggedParameterDataGridView.Visible = false;
         }
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            taggedParameterBindingSource.Clear();
+ 
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
                 var fileName = openFileDialog.FileName;
-                _xmlFilePath = fileName;
-                ActiveForm.Text = _xmlFilePath;
+                _currentXmlFilePath = fileName;
+                ActiveForm.Text = _currentXmlFilePath;
                 var configurationParameters = _configurationService.QueryXml(fileName);
-
-                foreach (var parameter in configurationParameters)
-                {
-                    taggedParameterBindingSource.Add(parameter);
-                }
-
-                taggedParameterDataGridView.DataSource = taggedParameterBindingSource;
+                PopulateTaggedParametersGridViewWithNewDataSource(configurationParameters);
             }
 
         }
@@ -49,10 +43,10 @@ namespace ConfigurationTool
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (_xmlFilePath != string.Empty)
+            if (_currentXmlFilePath != string.Empty)
             {
                 var parameters = GetTaggedParametersFromDataGridView();
-                _configurationService.SaveConfigurationParameters(parameters, _xmlFilePath);
+                _configurationService.SaveConfigurationParameters(parameters, _currentXmlFilePath);
                 return;
             }
 
@@ -65,8 +59,8 @@ namespace ConfigurationTool
             {
                 var parameters = GetTaggedParametersFromDataGridView();
                 var fileName = saveFileDialog.FileName;
-                _xmlFilePath = fileName;
-                ActiveForm.Text = _xmlFilePath;
+                _currentXmlFilePath = fileName;
+                ActiveForm.Text = _currentXmlFilePath;
                 _configurationService.SaveConfigurationParameters(parameters, fileName);
             }
 
@@ -83,11 +77,10 @@ namespace ConfigurationTool
             if (saveFileDialog.FileName != string.Empty)
             {
                 var fileName = saveFileDialog.FileName;
-                _xmlFilePath = fileName;
-                ActiveForm.Text = _xmlFilePath;
+                _currentXmlFilePath = fileName;
+                ActiveForm.Text = _currentXmlFilePath;
                 parameters = GetTaggedParametersFromDataGridView();
-
-                _configurationService.SaveConfigurationParameters(parameters, _xmlFilePath);
+                _configurationService.SaveConfigurationParameters(parameters, _currentXmlFilePath);
 
             }
         }
@@ -142,15 +135,19 @@ namespace ConfigurationTool
 
         private void closeToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var parametersFromUnmodifiedXmlFile = _configurationService.QueryXml("test90.xml");
-            var parameters = GetTaggedParametersFromDataGridView();
-            if (_configurationService.IsXmlFileContentNeedsToBeSaved(parametersFromUnmodifiedXmlFile, parameters))
+            var taggedParametersFromUnmodifiedXmlFile = _configurationService.QueryXml(_repositoryXmlFilePath);
+            var taggedParametersInDataGridView = GetTaggedParametersFromDataGridView();
+            if (
+                _configurationService.IsXmlFileContentNeedsToBeSaved(
+                taggedParametersFromUnmodifiedXmlFile,
+                taggedParametersInDataGridView)
+                )
             {
                 if (MessageBox.Show("Do you want to save the changes to file?",
                     "Message",
                     MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                 {
-                    _configurationService.SaveConfigurationParameters(parameters, "");
+                    _configurationService.SaveConfigurationParameters(taggedParametersInDataGridView, _currentXmlFilePath);
                 }
             }
             Application.Exit();
@@ -159,13 +156,19 @@ namespace ConfigurationTool
 
         private void aMToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            _xmlFilePath = string.Empty;
+            ShowTaggedParameterDataGridView();
+            _currentXmlFilePath = string.Empty;
             // ActiveForm.Text = _xmlFilePath;
             var amConfigParameters = _configurationService
-                                        .QueryXml(_repositoryXmlFileName)
-                                        .Where(c => c.ApplicationName == "AM")
-                                        .ToList();
+                                        .getTaggedPrametersForActionManager(_repositoryXmlFilePath);
 
+            PopulateTaggedParametersGridViewWithNewDataSource(amConfigParameters);
+
+        }
+
+        private void PopulateTaggedParametersGridViewWithNewDataSource(
+            List<ConfigurationParameter> amConfigParameters)
+        {
             taggedParameterBindingSource.Clear();
             foreach (var parameter in amConfigParameters)
             {
@@ -175,23 +178,20 @@ namespace ConfigurationTool
             taggedParameterDataGridView.DataSource = taggedParameterBindingSource;
         }
 
+        private void ShowTaggedParameterDataGridView()
+        {
+            taggedParameterDataGridView.Show();
+        }
+
         private void pMToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            _xmlFilePath = string.Empty;
-            ActiveForm.Text = _xmlFilePath;
+            ShowTaggedParameterDataGridView();
+            _currentXmlFilePath = string.Empty;
+            ActiveForm.Text = _currentXmlFilePath;
             var pmConfigParameters = _configurationService
-                                                .QueryXml(_repositoryXmlFileName)
-                                                .Where(c => c.ApplicationName == "PM")
-                                                .ToList();
+                                              .getTaggedPrametersForPerformanceManager(_repositoryXmlFilePath);
 
-            taggedParameterBindingSource.Clear();
-            foreach (var parameter in pmConfigParameters)
-            {
-                taggedParameterBindingSource.Add(parameter);
-            }
-
-
-            taggedParameterDataGridView.DataSource = taggedParameterBindingSource;
+            PopulateTaggedParametersGridViewWithNewDataSource(pmConfigParameters);
             taggedParameterDataGridView.Show();
         }
 
@@ -199,10 +199,12 @@ namespace ConfigurationTool
         {
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
+                ShowTaggedParameterDataGridView();
+
                 var oldVersionOfXmlFileName = openFileDialog.FileName;
                 var oldTaggedConfigurations = _configurationService.QueryXml(oldVersionOfXmlFileName);
 
-                var latestVersionOfXmlFileName = _repositoryXmlFileName;
+                var latestVersionOfXmlFileName = _repositoryXmlFilePath;
                 var latestTaggedConfigurations = _configurationService.QueryXml(latestVersionOfXmlFileName);
 
                 var latestTaggedConfigurationWithValues = _configurationService
@@ -210,15 +212,7 @@ namespace ConfigurationTool
                                                                          oldTaggedConfigurations,
                                                                          latestTaggedConfigurations
                                                                  );
-
-                taggedParameterBindingSource.Clear();
-
-                foreach (var taggedConfig in latestTaggedConfigurationWithValues)
-                {
-                    taggedParameterBindingSource.Add(taggedConfig);
-                }
-
-                taggedParameterDataGridView.DataSource = taggedParameterBindingSource;
+                PopulateTaggedParametersGridViewWithNewDataSource(latestTaggedConfigurationWithValues);
             }
         }
 
