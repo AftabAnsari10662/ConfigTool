@@ -28,7 +28,7 @@ namespace ConfigurationTool
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
- 
+
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
                 var fileName = openFileDialog.FileName;
@@ -96,22 +96,22 @@ namespace ConfigurationTool
                 parameter.ApplicationName = _applicationName;
 
                 parameter.TagName = taggedParameterDataGridView.Rows[rows].Cells[0].Value == null ?
-                          "" : taggedParameterDataGridView.Rows[rows].Cells[0].Value.ToString();
+                                        "" : taggedParameterDataGridView.Rows[rows].Cells[0].Value.ToString();
 
                 parameter.Value = taggedParameterDataGridView.Rows[rows].Cells[1].Value == null ?
-                            "" : taggedParameterDataGridView.Rows[rows].Cells[1].Value.ToString();
+                                    "" : taggedParameterDataGridView.Rows[rows].Cells[1].Value.ToString();
 
-                parameter.SampleValue = taggedParameterDataGridView.Rows[rows].Cells[2].Value == null ?
-                            "" : taggedParameterDataGridView.Rows[rows].Cells[2].Value.ToString();
+                parameter.Description = taggedParameterDataGridView.Rows[rows].Cells[2].Value == null ?
+                                        "" : taggedParameterDataGridView.Rows[rows].Cells[2].Value.ToString();
 
-                parameter.Description = taggedParameterDataGridView.Rows[rows].Cells[3].Value == null ?
-                              "" : taggedParameterDataGridView.Rows[rows].Cells[3].Value.ToString();
+                parameter.SampleValue = taggedParameterDataGridView.Rows[rows].Cells[3].Value == null ?
+                                         "" : taggedParameterDataGridView.Rows[rows].Cells[3].Value.ToString();
 
                 parameter.VersionAdded = taggedParameterDataGridView.Rows[rows].Cells[4].Value == null ?
-                                      "" : taggedParameterDataGridView.Rows[rows].Cells[4].Value.ToString();
+                                             "" : taggedParameterDataGridView.Rows[rows].Cells[4].Value.ToString();
 
                 parameter.VersionDeprecated = taggedParameterDataGridView.Rows[rows].Cells[5].Value == null ?
-                                   "" : taggedParameterDataGridView.Rows[rows].Cells[5].Value.ToString();
+                                                "" : taggedParameterDataGridView.Rows[rows].Cells[5].Value.ToString();
 
                 parameters.Add(parameter);
             }
