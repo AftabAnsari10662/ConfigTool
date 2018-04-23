@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Drawing;
-using System.Linq;
 using System.Windows.Forms;
 using ConfigurationTool.Models;
 using ConfigurationTool.Service;
@@ -16,6 +14,8 @@ namespace ConfigurationTool
         string _currentXmlFilePath;
         string _applicationName;
         string _repositoryXmlFilePath;
+        readonly string _actionManager;
+        readonly string _performanceManager;
         public ConfigTool()
         {
             InitializeComponent();
@@ -23,6 +23,8 @@ namespace ConfigurationTool
             _currentXmlFilePath = string.Empty;
             _applicationName = string.Empty;
             _repositoryXmlFilePath = ConfigurationManager.AppSettings["xmlRepoistoryFilePath"];
+            _actionManager = "ActionManager";
+            _performanceManager = "PerformanceManager";
             taggedParameterDataGridView.Visible = false;
         }
 
@@ -160,7 +162,10 @@ namespace ConfigurationTool
             _currentXmlFilePath = string.Empty;
             // ActiveForm.Text = _xmlFilePath;
             var amConfigParameters = _configurationService
-                                        .getTaggedPrametersForActionManager(_repositoryXmlFilePath);
+                                        .getTaggedPrametersForApplication(
+                                                    _repositoryXmlFilePath,
+                                                    _actionManager
+                                                    );
 
             PopulateTaggedParametersGridViewWithNewDataSource(amConfigParameters);
 
@@ -189,31 +194,13 @@ namespace ConfigurationTool
             _currentXmlFilePath = string.Empty;
             ActiveForm.Text = _currentXmlFilePath;
             var pmConfigParameters = _configurationService
-                                              .getTaggedPrametersForPerformanceManager(_repositoryXmlFilePath);
+                                              .getTaggedPrametersForApplication(
+                                                                    _repositoryXmlFilePath,
+                                                                    _performanceManager
+                                                                    );
 
             PopulateTaggedParametersGridViewWithNewDataSource(pmConfigParameters);
             taggedParameterDataGridView.Show();
-        }
-
-        private void importToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (openFileDialog.ShowDialog() == DialogResult.OK)
-            {
-                ShowTaggedParameterDataGridView();
-
-                var oldVersionOfXmlFileName = openFileDialog.FileName;
-                var oldTaggedConfigurations = _configurationService.QueryXml(oldVersionOfXmlFileName);
-
-                var latestVersionOfXmlFileName = _repositoryXmlFilePath;
-                var latestTaggedConfigurations = _configurationService.QueryXml(latestVersionOfXmlFileName);
-
-                var latestTaggedConfigurationWithValues = _configurationService
-                                                                 .ReplaceValuesFromOldTaggedConfigurationIntoLatestTaggedConfiguration(
-                                                                         oldTaggedConfigurations,
-                                                                         latestTaggedConfigurations
-                                                                 );
-                PopulateTaggedParametersGridViewWithNewDataSource(latestTaggedConfigurationWithValues);
-            }
         }
 
         private void printToolStripMenuItem_Click(object sender, EventArgs e)
@@ -246,6 +233,41 @@ namespace ConfigurationTool
         private void printPreviewDialog1_Load(object sender, EventArgs e)
         {
 
+        }
+
+        private void aMToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            ImportTaggedParameterForSpecificApplication(_actionManager);
+        }
+
+        private void pMToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            ImportTaggedParameterForSpecificApplication(_performanceManager);
+        }
+
+        private void ImportTaggedParameterForSpecificApplication(string applicationName)
+        {
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                ShowTaggedParameterDataGridView();
+
+                var oldVersionOfXmlFileName = openFileDialog.FileName;
+                var oldTaggedConfigurations = _configurationService.QueryXml(oldVersionOfXmlFileName);
+
+                var latestVersionOfXmlFileName = _repositoryXmlFilePath;
+                var latestTaggedConfigurations = _configurationService
+                                                                .getTaggedPrametersForApplication(
+                                                                            latestVersionOfXmlFileName,
+                                                                            applicationName
+                                                                            );
+
+                var latestTaggedConfigurationWithValues = _configurationService
+                                                                 .ReplaceValuesFromOldTaggedConfigurationIntoLatestTaggedConfiguration(
+                                                                         oldTaggedConfigurations,
+                                                                         latestTaggedConfigurations
+                                                                 );
+                PopulateTaggedParametersGridViewWithNewDataSource(latestTaggedConfigurationWithValues);
+            }
         }
     }
 }

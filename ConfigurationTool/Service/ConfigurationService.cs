@@ -99,22 +99,24 @@ namespace ConfigurationTool.Service
             return latestTaggedConfigurations;
         }
 
-        public List<ConfigurationParameter> getTaggedPrametersForPerformanceManager(
-            string _repositoryXmlFilePath)
+        public List<ConfigurationParameter> getTaggedPrametersForApplication(
+            string repositoryXmlFilePath, string applicationName)
         {
-            return QueryXml(_repositoryXmlFilePath)
-            .Where(c => c.ApplicationName == "PM")
-            .ToList();
+            var xmlData = new List<ConfigurationParameter>();
+            if (applicationName == "ActionManager")
+            {
+                xmlData = QueryXml(repositoryXmlFilePath)
+                                   .Where(c => c.ApplicationName == "AM")
+                                   .ToList();
+            }
+            else if (applicationName == "PerformanceManager")
+            {
+                xmlData = QueryXml(repositoryXmlFilePath)
+                               .Where(c => c.ApplicationName == "PM")
+                               .ToList();
+            }
 
-        }
-
-        public List<ConfigurationParameter> getTaggedPrametersForActionManager(
-            string _repositoryXmlFilePath)
-        {
-            return QueryXml(_repositoryXmlFilePath)
-            .Where(c => c.ApplicationName == "AM")
-            .ToList();
-
+            return xmlData;
         }
     }
 }
