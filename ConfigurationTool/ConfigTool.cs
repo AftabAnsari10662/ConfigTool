@@ -336,7 +336,7 @@ namespace ConfigurationTool
                 {
                     DataGridViewRow GridRow = taggedParameterDataGridView.Rows[iRow];
                     //Set the cell height
-                    iCellHeight = GridRow.Height + 5;
+                    iCellHeight = GridRow.Height + 10;
                     int iCount = 0;
                     //Check whether the current page settings allo more rows to print
                     if (iTopMargin + iCellHeight >= e.MarginBounds.Height + e.MarginBounds.Top)
